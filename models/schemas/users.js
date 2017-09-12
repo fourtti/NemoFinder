@@ -15,7 +15,7 @@ const userSchema = new mongoose.schema({
 	},
 	hash: String,
 	salt: String,
-	fishDataSchema: [fishDataSchema]
+	fishData: [fishDataSchema]
 });
 
 //encrypts given password and sets users salt and hash
