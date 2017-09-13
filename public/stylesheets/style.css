@@ -1,8 +1,25 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: url(../../images/fishing_background_1.png);
 }
 
 a {
   color: #00B7FF;
 }
+
+
+.menu-button {
+	height: 200px;
+
+}
+
+.margin-auto {
+	margin: auto;
+}
+
+.menu-row {
+	display: flex;
+	justify-content: space-around;
+}
+
