@@ -17,17 +17,26 @@ app.config(['$routeProvider', function($routeProvider){
         });
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$resource', 
-	function($scope, $resource){
-
-	}]);
+app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        $('body').css( {
+            "background" : "url(../../images/fishing_background_1.png)"
+        });
+    });
+}]);
 
 app.controller('LoginCtrl', ['$scope', '$resource', 
 	function($scope, $resource){
 
 	}]);
 
-app.controller('SonarCtrl', ['$scope', '$resource', 
-	function($scope, $resource){
-		
-	}]);
+app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        $('body').css( {
+            "background-image" : "none",
+            "background-color" : "black"
+        });
+    });
+
+}]);
+

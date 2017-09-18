@@ -25,23 +25,38 @@ a {
 }
 
 
-/*SONAR VIEW*/
-#sonar-background {
-	position: absolute;
+#scrollingFloorContainer {
 	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	background-color: black;
+	overflow: hidden;
+	margin-bottom: 500px;
+	margin-left: -50px ;
 	z-index: 2;
 }
 
-#sonar-bottom {
-	position: absolute;
+.scrollingFloor {
+	position: fixed;
 	bottom: 0;
-	left: 0;
-	background: url(../../images/sonar_radar_bottom_1.png);
-	background-color: red;
-	height: 76px; width: 1000px;
-	z-index: 3;
+	overflow: hidden;
+	height: 74px;
+	width: 3550px;
+	margin-bottom: 0px;
 }
+
+.photobanner-img {
+	margin-left: -5px;
+}
+
+/*keyframe animations*/
+.first {
+	-webkit-animation: bannermove 30s linear infinite;
+	   -moz-animation: bannermove 30s linear infinite;
+	    -ms-animation: bannermove 30s linear infinite;
+	     -o-animation: bannermove 30s linear infinite;
+	        animation: bannermove 30s linear infinite;
+} 
+
+@keyframes "bannermove" {  0% { margin-left: 0px;}  100% { margin-left: -2125px;} } 
+@-moz-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
+@-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
+@-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
+@-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
