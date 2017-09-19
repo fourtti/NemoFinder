@@ -4,7 +4,7 @@ const fishDataSchema = mongoose.model('FishData').schema;
 const jsonWebToken = require('jsonwebtoken');
 
 const userSchema = new mongoose.schema({
-	email: {
+	email:{
 		type: String,
 		unique: true,
 		required: true
