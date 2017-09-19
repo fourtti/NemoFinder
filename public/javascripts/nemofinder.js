@@ -8,9 +8,14 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
+
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
+
+        }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
+            templateUrl: 'partials/sonar.html',
+            controller: 'SonarInsert'
 
         }).otherwise({
             redirectTo: '/'
@@ -56,8 +61,10 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 				}
 			});
 		}
-
     });
+}]);
 
+app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource){
+    
 }]);
 
