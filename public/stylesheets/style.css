@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: url(../../images/fishing_background_1.png);
   overflow: hidden;
@@ -11,9 +10,9 @@ a {
 
 .loginpad {
 	padding-top: 20%;
+}
 
-
-/*MENU VIEW*/
+/* ----------------------MENU VIEW ----------------------*/
 .menu-button {
 	height: 200px;
 
@@ -28,28 +27,51 @@ a {
 	justify-content: space-around;
 }
 
-
-#scrollingFloorContainer {
+/* ---------------------- SONAR VIEW --------------------- */
+#surface-line {
+	box-shadow: 0 0 15px rgba(81, 203, 238, 1);
+	position: fixed;
+	top: 50px;
 	width: 100%;
-	overflow: hidden;
-	margin-bottom: 500px;
-	margin-left: -50px ;
+	height: 5px;
+	background-color: rgb(82, 140, 234);
+}
+#measuring-line {
+	position: fixed;
+	top: 48px;
+	width: 2px;
+	margin-left: 0px;
+	background-color: white;
 	z-index: 2;
 }
-
-.scrollingFloor {
+.measuring-cross-line {
+	background-color: white;
+	width: 60px;
+	height: 2px;
+}
+.measuring-cross-line p {
+	color: white;
+	text-align: center;
+}
+#scrolling-floor-container {
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: 0px;
+	margin-left: -50px ;
+	z-index: 1;
+}
+#scrolling-floor {
 	position: fixed;
 	bottom: 0;
 	overflow: hidden;
 	height: 74px;
-	width: 3550px;
+	width: 6096px;
 	margin-bottom: 0px;
 }
-
 .photobanner-img {
 	margin-left: -5px;
+	z-index: 1;
 }
-
 /*keyframe animations*/
 .first {
 	-webkit-animation: bannermove 30s linear infinite;
@@ -59,8 +81,10 @@ a {
 	        animation: bannermove 30s linear infinite;
 } 
 
-@keyframes "bannermove" {  0% { margin-left: 0px;}  100% { margin-left: -2125px;} } 
-@-moz-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
-@-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
-@-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
-@-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2125px;  }  }
+@keyframes "bannermove" {  0% { margin-left: 0px;}  100% { margin-left: -2032px;} } 
+@-moz-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+
+/*------------------------------------------------------------- */
