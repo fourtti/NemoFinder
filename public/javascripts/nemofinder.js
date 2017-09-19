@@ -32,10 +32,31 @@ app.controller('LoginCtrl', ['$scope', '$resource',
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
+    	//asetetaan backgroundi oikeaksi
         $('body').css( {
             "background-image" : "none",
             "background-color" : "black"
         });
+
+        $(window).resize(function() {
+		  	$("#measuring-line").css( {
+		  		"height" : ($(window).height()-80)+"px"
+		  	})
+		  	adjustMeasurementLines();
+		});
+		$(window).trigger('resize');
+
+		function adjustMeasurementLines() {
+			var fromtop = $('#measuring-line').height()/5 - 2;
+			$('#measuring-line').children('div').each(function () {
+				if (!($(this).is(':first-child'))) {
+					$(this).css( {
+		    			"margin-top" : fromtop+"px"
+		    		})
+				}
+			});
+		}
+
     });
 
 }]);
