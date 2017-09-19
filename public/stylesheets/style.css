@@ -8,6 +8,10 @@ a {
   color: #00B7FF;
 }
 
+.loginpad {
+	padding-top: 20%;
+}
+
 /* ----------------------MENU VIEW ----------------------*/
 .menu-button {
 	height: 200px;
