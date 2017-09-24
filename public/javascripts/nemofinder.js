@@ -12,9 +12,77 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
 
-        }).otherwise({
+        }).when('/online', {
+            templateUrl: 'partials/online.html',
+            //controller: ''
+        })
+        .otherwise({
             redirectTo: '/'
         });
+}]);
+
+app.service("authentication", ["$window","$http", function($window,$http){
+    var saveToken = function (token){
+        $window.localStorage["nemo-token"] = token;
+    };
+    var getToken = function (){
+        return $window.localStorage["nemo-token"];
+    };
+//    var register = function(user){
+//        return $http.post("/users/register", user).success(function(data){
+//            saveToken(data.token);
+//        });
+//    };
+    var login = function(user){
+        return $http.post("/users/login", user).success(function(data){
+            saveToken(data.token);
+        });
+    };
+    var logout = function(){
+        $window.localStorage.removeItem("nemo-token");
+    };
+    var isLoggedIn = function(){
+        var token = getToken();
+
+        if (token){
+            var payload = JSON.parse($window.atob(token.split(".")[1]));
+
+            return payload.exp > Date.now() / 1000;
+        } else {
+            return false;
+        }
+    };
+    var currentUser = function(){
+        if(isLoggedIn()){
+            var token = getToken();
+            var payload = JSON.parse($window.atob(token.split(".")[1]));
+            return{
+                email: payload.email,
+                name: payload.name
+            };
+        }
+    };
+
+
+    return {
+        saveToken: saveToken,
+        getToken: getToken,
+        //register: register,
+        login: login,
+        logout: logout,
+        isLoggedIn: isLoggedIn,
+        currentUser: currentUser
+    };
+}]);
+
+
+app.controller("LoginCtrl", ["$scope","$location", "authentication",function($scope,$location,authentication){
+    $scope.userLogin = function(){
+        console.log("login function");
+        authentication.login($scope.user).then(function(){
+            $location.path("/online.html");
+        });
+    };
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
@@ -25,10 +93,6 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     });
 }]);
 
-app.controller('LoginCtrl', ['$scope', '$resource', 
-	function($scope, $resource){
-
-	}]);
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){

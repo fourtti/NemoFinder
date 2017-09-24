@@ -15,6 +15,8 @@ mongoose.connection.on('disconnected', function() {
     console.log('Mongoose disconnected');
 });
 
+// users schema
+const User = require('./schemas/user');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
@@ -44,6 +46,3 @@ process.on('SIGTERM', function() {
     });
 });
 
-// BRING IN YOUR SCHEMAS & MODELS
-//require('./vidzyModel');
-//require("./user");
