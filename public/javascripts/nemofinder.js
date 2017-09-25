@@ -14,14 +14,12 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
 
-        }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
-            templateUrl: 'partials/sonar.html',
-            controller: 'SonarInsert'
-
         }).otherwise({
             redirectTo: '/'
         });
 }]);
+
+//'/sonar/insert/:fishX/:fishY/:fishWeight'
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
@@ -80,10 +78,17 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 				"margin-left" : $("#surface-line").width() / 2
 			})
 		}
+		//X == -15 to +15 (etu-taka)
+		//depth 0 to 15
+		//size 1-26 //arvo, ei kiloja
+
+		function fishPing(size, depth, paramX) {
+			$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
+				+ 'style=""'
+				+ '/>').appendTo($("body"));
+		} 
     });
 }]);
 
-app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource){
-    alert("perkele");
-}]);
+
 
