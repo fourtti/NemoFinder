@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const fishDataSchema = mongoose.model('FishData').schema;
 const jsonWebToken = require('jsonwebtoken');
 
-const userSchema = new mongoose.schema({
+let userSchema = new mongoose.Schema({
 	email:{
 		type: String,
 		unique: true,
