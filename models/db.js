@@ -45,5 +45,5 @@ process.on('SIGTERM', function() {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
-//require('./vidzyModel');
-//require("./user");
+require('./schemas/fishData');
+require("./schemas/users");
