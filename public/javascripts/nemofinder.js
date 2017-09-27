@@ -18,6 +18,10 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/sonar.html',
             controller: 'SonarInsert'
 
+        }).when('/drone', {
+            templateUrl: 'partials/drone.html',
+            controller: 'DroneControl'
+
         }).otherwise({
             redirectTo: '/'
         });
@@ -80,6 +84,11 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 				"margin-left" : $("#surface-line").width() / 2
 			})
 		}
+
+        function fishPing(size,depth,locallat){
+            console.log("fishPing sonar view call");
+        }
+
     });
 }]);
 
@@ -87,3 +96,32 @@ app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource
     alert("perkele");
 }]);
 
+app.controller('DroneControl', ['$scope', '$resource', function($scope, $resource){
+}]);
+
+function addFish(lat,long,depth,size){
+    console.log("addFish call");
+}
+
+function fishPing(size,depth,locallat){
+    console.log("fishPing general call");
+}
+
+function showDrone(){
+    console.log("droning");
+    if (window.location.href.indexOf("drone") == -1){
+        console.log("hide");
+        document.getElementById("unityPlayer").style.visibility='hidden';
+    } else {
+        console.log("show");
+        document.getElementById("unityPlayer").style.visibility='visible';
+    }
+}
+
+function revealDrone(){
+    document.getElementById("unityPlayer").style.visibility='visible';
+}
+
+function hideDrone(){
+    document.getElementById("unityPlayer").style.visibility='hidden'; 
+}
