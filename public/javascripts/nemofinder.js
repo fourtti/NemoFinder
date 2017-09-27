@@ -23,8 +23,6 @@ app.config(['$routeProvider', function($routeProvider){
         });
 }]);
 
-//'/sonar/insert/:fishX/:fishY/:fishWeight'
-
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
         $('body').css( {
@@ -88,9 +86,9 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 
 		function fishPing(size, depth, paramX) {
 			console.log("Fishping called: ");
-			$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
-				+ 'style=""'
-				+ '/>').appendTo($("body"));
+			//$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
+			//	+ 'style=""'
+			//	+ '/>').appendTo($("body"));
 		} 
     });
 }]);

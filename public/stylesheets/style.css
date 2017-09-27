@@ -110,11 +110,11 @@ a {
 	        animation: bannermove 30s linear infinite;
 } 
 
-@keyframes "bannermove" {  0% { margin-left: 0px;}  100% { margin-left: -2032px;} } 
+@keyframes bannermove {  0% { margin-left: 0px;}  100% { margin-left: -2032px;} } 
 @-moz-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-webkit-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-ms-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-o-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
 
 
 /* ---------------------- DRONE VIEW --------------------- */
