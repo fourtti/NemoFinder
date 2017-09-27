@@ -37,12 +37,17 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
 
 app.controller('LoginCtrl', ['$scope', '$resource', 
 	function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        //showDrone();
+    });
 
 	}]);
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
     	//asetetaan backgroundi oikeaksi
+        //showDrone();
+
         $('body').css( {
             "background-image" : "none",
             "background-color" : "black"
@@ -97,6 +102,14 @@ app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource
 }]);
 
 app.controller('DroneControl', ['$scope', '$resource', function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        showDrone();
+    });
+
+    $scope.$on('$destroy', function() {
+        showDrone();
+        //document.getElementById("unityPlayer").style.visibility='hidden';
+    });
 }]);
 
 function addFish(lat,long,depth,size){
@@ -111,17 +124,15 @@ function showDrone(){
     console.log("droning");
     if (window.location.href.indexOf("drone") == -1){
         console.log("hide");
+        //document.getElementById("unityPlayer").style.zIndex="-1";
         document.getElementById("unityPlayer").style.visibility='hidden';
     } else {
         console.log("show");
+        //document.getElementById("unityPlayer").style.zIndex="1";
         document.getElementById("unityPlayer").style.visibility='visible';
     }
 }
 
-function revealDrone(){
-    document.getElementById("unityPlayer").style.visibility='visible';
-}
-
 function hideDrone(){
-    document.getElementById("unityPlayer").style.visibility='hidden'; 
+    showDrone();
 }
