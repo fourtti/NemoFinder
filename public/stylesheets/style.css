@@ -2,6 +2,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: url(../../images/fishing_background_1.png);
   overflow: hidden;
+  z-index: 0;
 }
 
 a {
@@ -119,7 +120,6 @@ a {
 
 /* ---------------------- DRONE VIEW --------------------- */
 #unityPLayer {
-	float: top;
 	margin-left: auto;
 	margin-right: auto;
 }
