@@ -83,6 +83,7 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 		//size 1-26 //arvo, ei kiloja
 
 		function fishPing(size, depth, paramX) {
+			console.log("Fishping called: ");
 			$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
 				+ 'style=""'
 				+ '/>').appendTo($("body"));
