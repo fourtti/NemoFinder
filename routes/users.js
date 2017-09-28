@@ -6,6 +6,14 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const User = mongoose.model('UserModel');
 
+//required for authentication of API routes
+const jwt = require('express-jwt');
+const auth = jwt({
+    secret: 'thisIsSecret',
+    userProperty: 'payload'
+});
+
+
 
 
 // returns a list of all users as an array contains hashes 'n stuff might want to delete in production 
