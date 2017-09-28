@@ -36,7 +36,7 @@ var testUser = new User();
     testUser.email = 'abina';
     testUser.name = 'abina';
     testUser.setPassword("abina");
-    //testUser.save();
+    testUser.save();
 
 // save user to database
 router.post('/', function() {
@@ -74,9 +74,7 @@ router.post("/login",function(req,res){
 
         if(user){
             console.log(user);
-            user.hello;
             token = user.generateJwt();
-            console.log(token);
             res.status(200);
             res.json({"token":token});
         } else {
