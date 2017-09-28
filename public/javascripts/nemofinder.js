@@ -14,8 +14,10 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
-        })
-        .otherwise({
+        }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
+            templateUrl: 'partials/sonar.html',
+            controller: 'SonarInsert'
+        }).otherwise({
             redirectTo: '/'
         });
 }]);
@@ -115,16 +117,22 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
         });
 
         $(window).resize(function() {
-		  	$("#measuring-line").css( {
+		  	$(".measuring-line").css( {
 		  		"height" : ($(window).height()-80)+"px"
 		  	})
 		  	adjustMeasurementLines();
+		  	adjustSonarWidth();
+		  	adjustSonarIndicator();
+		  	$(".measuring-line-second").css( {
+		  		"margin-left" : $("#surface-line").width()
+		  	})
 		});
+
 		$(window).trigger('resize');
 
 		function adjustMeasurementLines() {
-			var fromtop = $('#measuring-line').height()/5 - 2;
-			$('#measuring-line').children('div').each(function () {
+			var fromtop = $('.measuring-line-first').height()/5 - 2;
+			$('.measuring-line-first').children('div').each(function () {
 				if (!($(this).is(':first-child'))) {
 					$(this).css( {
 		    			"margin-top" : fromtop+"px"
@@ -133,7 +141,21 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 			});
 		}
 
-    });
+		function adjustSonarWidth() {
+			$("#surface-line").css( {
+				"width" : $(".measuring-line").height() * 2
+			})
+		}
 
+		function adjustSonarIndicator() {
+			$("#radar-indicator").css( {
+				"margin-left" : $("#surface-line").width() / 2
+			})
+		}
+    });
+}]);
+
+app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource){
+    alert("perkele");
 }]);
 

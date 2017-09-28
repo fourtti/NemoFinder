@@ -16,6 +16,7 @@ mongoose.connection.on('disconnected', function() {
 });
 
 // users schema
+// BRING IN YOUR SCHEMAS & MODELS
 require('./schemas/user');
 require('./schemas/fishData');
 
@@ -46,4 +47,3 @@ process.on('SIGTERM', function() {
         process.exit(0);
     });
 });
-
