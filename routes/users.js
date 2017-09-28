@@ -18,7 +18,7 @@ var testUser = new User();
     testUser.email = 'abina';
     testUser.name = 'abina';
     testUser.setPassword("abina");
-
+    //testUser.save();
 
 // save user to database
 router.post('/', function() {
@@ -47,6 +47,7 @@ router.post("/login",function(req,res){
         var token;
 
         if (err) {
+            console.log(err);
             res.status(404);
             res.json(err);
             return;
@@ -54,7 +55,9 @@ router.post("/login",function(req,res){
 
 
         if(user){
-            token = user.generateJwt();
+            console.log(user);
+            user.hello;
+            token = user.generateJwt;
             res.status(200);
             res.json({"token":token});
         } else {

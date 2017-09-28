@@ -16,7 +16,8 @@ mongoose.connection.on('disconnected', function() {
 });
 
 // users schema
-const User = require('./schemas/user');
+require('./schemas/user');
+require('./schemas/fishData');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS

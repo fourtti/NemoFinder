@@ -7,9 +7,9 @@ const fishDataSchema = new Schema({
 	coords: { type: [Number], index: '2dsphere', required: true },
 	depth: { type: String, required: true },
 	timeStamp: { type: Date, "default": Date.now },
-	creator : Schema.ObjectId,
+	//creator : Schema.ObjectId,
 
-	//owner: { type: String },
+	owner: { type: String },
 	private: { type: Boolean }
 	//]
 });

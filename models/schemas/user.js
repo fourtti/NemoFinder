@@ -38,5 +38,9 @@ userSchema.method.generateJwt = function(){
 	}, "thisIsSecret"); // CHANGE THIS BEFORE RETURNING TO TEACHER, ADD TO ENV VARIABLE. INSTRUCTIONS CAN BE FOUND IN THE GETTING MEAN BOOK
 };
 
+userSchema.method.hello = function(){
+	console.log("hello, i am a method!");
+};
+
 
 mongoose.model('UserModel',userSchema);

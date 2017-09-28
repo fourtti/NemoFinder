@@ -11,10 +11,9 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
-
         }).when('/online', {
             templateUrl: 'partials/online.html',
-            //controller: ''
+            controller: 'OnlineCtrl'
         })
         .otherwise({
             redirectTo: '/'
@@ -40,6 +39,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
     };
     var logout = function(){
         $window.localStorage.removeItem("nemo-token");
+        console.log("token removed");
+
     };
     var isLoggedIn = function(){
         var token = getToken();
@@ -80,8 +81,19 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
     $scope.userLogin = function(){
         console.log("login function");
         authentication.login($scope.user).then(function(){
-            $location.path("/online.html");
+        console.log('tuli reittiin');
+        $location.path("/online");
         });
+        
+    };
+}]);
+
+app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.userLogOut = function(){
+        console.log("yritit logata ulos");
+        authentication.logout();
+        console.log("toimi logout");
+        $location.path("/home");   
     };
 }]);
 
