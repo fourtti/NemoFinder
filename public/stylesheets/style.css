@@ -2,6 +2,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: url(../../images/fishing_background_1.png);
   overflow: hidden;
+  z-index: 0;
 }
 
 a {
@@ -115,5 +116,31 @@ a {
 @-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
 @-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
 @-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+
+
+/* ---------------------- DRONE VIEW --------------------- */
+div#unityPlayer {
+	align-self: center;
+	cursor: default;
+	height: 2*600px;
+	width: 2*1360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.broken, div.missing {
+	margin: auto;
+	position: relative;
+	top: 50%;
+	width: 193px;
+}
+
+      #map {
+        width: 70%;
+        height: 400px;
+        background-color: grey;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
 /*------------------------------------------------------------- */
