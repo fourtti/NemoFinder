@@ -15,6 +15,10 @@ mongoose.connection.on('disconnected', function() {
     console.log('Mongoose disconnected');
 });
 
+// users schema
+// BRING IN YOUR SCHEMAS & MODELS
+require('./schemas/user');
+require('./schemas/fishData');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
@@ -43,7 +47,3 @@ process.on('SIGTERM', function() {
         process.exit(0);
     });
 });
-
-// BRING IN YOUR SCHEMAS & MODELS
-require('./schemas/fishData');
-require("./schemas/users");
