@@ -57,7 +57,7 @@ router.post("/login",function(req,res){
         if(user){
             console.log(user);
             user.hello;
-            token = user.generateJwt;
+            token = user.generateJwt();
             res.status(200);
             res.json({"token":token});
         } else {
