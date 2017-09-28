@@ -75,7 +75,8 @@ router.post("/login",function(req,res){
         if(user){
             console.log(user);
             user.hello;
-            token = user.generateJwt;
+            token = user.generateJwt();
+            console.log(token);
             res.status(200);
             res.json({"token":token});
         } else {
@@ -86,6 +87,21 @@ router.post("/login",function(req,res){
 
 
     })(req,res);
+});
+
+
+
+router.get('/:id',auth,function(req,res){
+    const userId = req.params.id;
+    const findUser = userCtrl.findUser(userId);
+
+    findUser.then((user)=>{
+        res.status(200);
+        res.json(user);
+    }).catch((err)=>{
+        res.status(400);
+        res.json(user);
+    });
 });
 
 module.exports = router;

@@ -23,6 +23,18 @@ module.exports.getAllUsers = function(){
 
 //returns user based on given id
 module.exports.findUser = function(id){
+	return new Promise((resolve,reject)=>{
+		User.find({_id: id},function(err,foundUser){
+		if(err){
+			console.log("Could not find user based on id:" + id);
+			console.log(err);
+			reject(err);
+		}
+		resolve(foundUser);
+	});
+
+	});
+
 	let user;
 
 	User.find({_id: id},function(err,foundUser){
