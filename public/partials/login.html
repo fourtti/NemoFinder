@@ -1,4 +1,3 @@
-<!--home luonnos-->
 
 <div class="container">
 	<div class="row"></div>
@@ -7,15 +6,15 @@
 		<div class="col-md-3"></div>
 		<div class="col-md-6 loginpad">
 			<div class="form-group">
-        	<!--add ng-model for schema-->
-				<input class="form-control" type="text" id="username" placeholder="Enter username">
+        	<!--add ng-model-->
+				<input class="form-control" type="text" id="username" ng-model="user.username" placeholder="Enter username">
 			</div>
 			<div class="form-group">
-        	<!--add ng-model for schema-->
-				<input class="form-control" type="text" id="password" placeholder="Enter password">
+        	<!--add ng-model-->
+				<input class="form-control" type="text" id="password" ng-model="user.password" placeholder="Enter password">
 			</div>
 
-			<input type="button" class="btn btn-primary" value="login" ng-click=""></input>
+			<input type="button" class="btn btn-primary" value="Login" ng-click="userLogin()"></input>
 		</div>
 		
 	</div>
