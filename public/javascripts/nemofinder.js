@@ -1,4 +1,5 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
+var loadsoffish;
 
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
@@ -22,6 +23,10 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/drone.html',
             controller: 'DroneControl'
 
+        }).when('/localmaps', {
+            templateUrl: 'partials/localmaps.html',
+            controller: 'LocalMapsControl'
+
         }).otherwise({
             redirectTo: '/'
         });
@@ -37,16 +42,12 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
 
 app.controller('LoginCtrl', ['$scope', '$resource', 
 	function($scope, $resource){
-    $scope.$on('$viewContentLoaded', function(){
-        //showDrone();
-    });
 
 	}]);
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
     	//asetetaan backgroundi oikeaksi
-        //showDrone();
 
         $('body').css( {
             "background-image" : "none",
@@ -90,10 +91,6 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 			})
 		}
 
-        function fishPing(size,depth,locallat){
-            console.log("fishPing sonar view call");
-        }
-
     });
 }]);
 
@@ -108,31 +105,45 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 
     $scope.$on('$destroy', function() {
         showDrone();
-        //document.getElementById("unityPlayer").style.visibility='hidden';
     });
 }]);
 
-function addFish(lat,long,depth,size){
-    console.log("addFish call");
+app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
+}]);
+
+function addFish(flat,flong,depth,size){
+    console.log("addFish general call");
+    if (window.location.href.indexOf("localmaps") != -1){
+    console.log("addFish maps update");
+    var marker = new google.maps.Marker({
+        position: {lat: flat, lng: flong},
+        map: window.map,
+        title: "Fish : "+depth+"m deep, "+size+"kg"
+      });
+    }
 }
 
 function fishPing(size,depth,locallat){
     console.log("fishPing general call");
+    if (window.location.href.indexOf("sonar") != -1){
+    console.log("fishPing sonar call");
+    }
 }
 
 function showDrone(){
-    console.log("droning");
     if (window.location.href.indexOf("drone") == -1){
         console.log("hide");
-        //document.getElementById("unityPlayer").style.zIndex="-1";
         document.getElementById("unityPlayer").style.visibility='hidden';
     } else {
         console.log("show");
-        //document.getElementById("unityPlayer").style.zIndex="1";
         document.getElementById("unityPlayer").style.visibility='visible';
     }
 }
 
 function hideDrone(){
     showDrone();
+}
+
+function reroute(whereto){
+    console.log("This would handle unity UI redirects, but they currently have issues.");
 }

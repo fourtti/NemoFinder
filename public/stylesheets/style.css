@@ -119,9 +119,28 @@ a {
 
 
 /* ---------------------- DRONE VIEW --------------------- */
-#unityPLayer {
-	margin-left: auto;
-	margin-right: auto;
+div#unityPlayer {
+	align-self: center;
+	cursor: default;
+	height: 2*600px;
+	width: 2*1360px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+div.broken, div.missing {
+	margin: auto;
+	position: relative;
+	top: 50%;
+	width: 193px;
+}
+
+      #map {
+        width: 70%;
+        height: 400px;
+        background-color: grey;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
 /*------------------------------------------------------------- */
