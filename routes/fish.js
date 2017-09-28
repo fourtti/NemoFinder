@@ -24,10 +24,46 @@ router.post('/add/:long/:lat/:depth',function(req,res){
 	let lat = req.params.lat;
 	let depth = req.params.depth;
 
-	fishDataCtrl.createFishdata([long,lat],depth,"Unknown",true);
-	res.status(200);
-	res.json({message: 'FishData saved!'});
+	fishDataCtrl.createFishdata([long,lat],depth,"Unknown",true).then(()=>{
+		res.status(200);
+		res.json({message: 'FishData saved!'});
+	}).catch((data)=>{
+		res.status(200);
+		res.json(data);
+	});
+
 
 });
+
+//returns an array of all the fishdata inside given radius
+router.get('/list',function(req,res){
+	let maxDistance = req.query.maxDistance;
+	let count = req.query.amount;
+	let long = req.query.long;
+	let lat = req.query.lat;
+	if(!maxDistance || !count || !long || !lat){
+		res.status(400);
+		res.json({message: 'invalid request parameters!'});
+	} else {
+		let data = fishDataCtrl.getFishdata(maxDistance,count,long,lat);
+		data.then((data)=>{
+			res.status(200);
+			console.log(data);
+			res.json(data);
+		}).catch((err)=>{
+			res.status(400);
+			res.json(err);
+			throw err;
+		});
+
+
+
+
+
+	}
+
+
+});
+
 
 module.exports = router;

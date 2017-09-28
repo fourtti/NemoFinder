@@ -23,6 +23,8 @@ let theEarth = (function () {
 
 //creates a new fishdata and saves it
 module.exports.createFishdata = function(coords,depth,owner,private){
+    return new Promise((response,reject)=>{
+
 	let newData = new Fishdata();
 
 	newData.coords = coords;
@@ -33,33 +35,39 @@ module.exports.createFishdata = function(coords,depth,owner,private){
 	newData.save(function(err){
 		if(err){
 			console.log("could not save fishdata");
-			throw err;
+			reject(error);
 		}
 	});
+    response();
+});
 };
 
+//returns an array of fishdatas based on maxdistance and position
 module.exports.getFishdata = function(maxDistance,count,lng,lat){
-	let data;
+    return new Promise((response,reject)=>{
+        let data;
 
-	//Creating geoJSON point
-	let point = {
-		type:"Point",
-		coordinates: [lng,lat]
-	};
-	//geoOptions are required by geoNear
-	let geoOptions = {
-        spherical: true,
-        maxDistance: theEarth.getRadsFromDistance(maxDistance),
-        num: count
-    };
+        //Creating geoJSON point
+        let point = {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)]
+        };
+        //geoOptions are required by geoNear
+        let geoOptions = {
+            spherical: true,
+            maxDistance: theEarth.getRadsFromDistance(parseFloat(maxDistance)),
+            num: parseFloat(count)
+        };
+        
+        Fishdata.geoNear(point,geoOptions,function(err,results,stats){
+        if (err){
+            console.log("searching with GeoNear did not work");
+            reject(err);
+        }
+        response(results);
 
-    Fishdata.geoNear(point,geoOptions,function(err,results,stats){
-    	if (err){
-    		console.log("searching with GeoNear did not work");
-    		throw err;
-    	}
-    	data = results;
+        });
+
+
     });
-
-    return data;
 }

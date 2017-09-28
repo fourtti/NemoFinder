@@ -1,22 +1,23 @@
 //required for database connection
 const mongoose = require("mongoose");
-let User = mongoose.model("Users");
+let User = mongoose.model("User");
 
 
 
 //function that returns a list of all users
 module.exports.getAllUsers = function(){
-	let users;
+	return new Promise((response,reject)=>{
+		let users;
 
-	//stores an array of all the documents in the User collection as an array
-	User.find(function(err,userArray){
-		if(err){
-			console.log(err);
-		}
-		//console.log("test2");
-		users = userArray;
+		//stores an array of all the documents in the User collection as an array
+		User.find(function(err,userArray){
+			if(err){
+				console.log(err);
+				reject(err);
+			}
+			response(userArray);
+		});
 	});
-	return users;
 };
 
 
