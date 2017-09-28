@@ -1,6 +1,6 @@
 //required for database connection
 const mongoose = require("mongoose");
-let Fishdata = mongoose.model("FishData");
+let Fishdata = mongoose.model("fishData");
 
 
 //Used for the calculations in geoNear options

@@ -1,6 +1,6 @@
 //required for database connection
 const mongoose = require("mongoose");
-let User = mongoose.model("User");
+let User = mongoose.model("UserModel");
 
 
 
