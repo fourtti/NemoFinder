@@ -24,7 +24,7 @@ router.post('/add/:long/:lat/:depth',function(req,res){
 	let lat = req.params.lat;
 	let depth = req.params.depth;
 
-	fishDataCtrl.createFishdata([long,lat],depth,"Unknown",true).then(()=>{
+	fishDataCtrl.createFishdata([long,lat],depth,"",true).then(()=>{
 		res.status(200);
 		res.json({message: 'FishData saved!'});
 	}).catch((data)=>{
@@ -44,6 +44,7 @@ router.get('/list',function(req,res){
 	if(!maxDistance || !count || !long || !lat){
 		res.status(400);
 		res.json({message: 'invalid request parameters!'});
+		return;
 	} else {
 		let data = fishDataCtrl.getFishdata(maxDistance,count,long,lat);
 		data.then((data)=>{
