@@ -1,5 +1,16 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
-var loadsoffish;
+//localStorage.setItem('fishdata', JSON.stringify([]));
+var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
+
+if(!(window.localStorage.getItem('fishdata').length>0)){
+    console.log("setting up data storage");
+    loadsoffish = [];
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish)); 
+} else {
+    var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
+}
+//typeof loadsoffish !== 'undefined' && loadsoffish !== null
+
 
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
@@ -184,27 +195,56 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
 }]);
 
-function addFish(flat,flong,depth,size){
+function addFish(flat,flong,size,depth){
     console.log("addFish general call");
+    loadsoffish.push([flat,flong,depth,size]);
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
     if (window.location.href.indexOf("localmaps") != -1){
     console.log("addFish maps update");
-
     $injector = angular.element(document).injector();
     $injector.get('$http').post('fish/add/'+flong+'/'+flat+'/'+depth);
 
     var marker = new google.maps.Marker({
         position: {lat: flat, lng: flong},
         map: window.map,
-        title: "Fish : "+depth+"m deep, "+size+"kg"
-
+        title: "Fish : "+depth+"m deep, "+size+'kg'
       });
     }
 }
 
+function fishestomap(){
+    console.log("mapping fishes");
+      for(let i = 0; i < loadsoffish.length; i++){
+        console.log("fish #"+i);
+        var marker = new google.maps.Marker({
+            position: {lat: loadsoffish[i][parseFloat(0)], lng: loadsoffish[i][parseFloat(1)]},
+            map: window.map,
+            title: "Fish : "+loadsoffish[i][2]+"m deep, "+loadsoffish[i][3]+'kg'
+            });
+        };
+    };
+
+function clearfishes(){
+    loadsoffish=[];
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
+}
+
+function sonaron(){
+    const btn=document.getElementById('togglebtn');
+    btn.onClick='sonaroff()';
+    btn.innerHTML='herp';
+}
+
+function sonaroff(){
+    const btn=document.getElementById('togglebtn');
+    btn.onClick='sonaron();
+    btn.innerHTML='derp';
+}
+
 function fishPing(size,depth,locallat){
-    console.log("fishPing general call");
+    //console.log("fishPing general call");
     if (window.location.href.indexOf("sonar") != -1){
-    console.log("fishPing sonar call");
+    //console.log("fishPing sonar call");
     }
 }
 
