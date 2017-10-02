@@ -31,12 +31,9 @@ router.get('/',function(req,res){
 
 // create a user a new user
 var testUser = new User();
-
-
-    testUser.email = 'abina';
-    testUser.name = 'abina';
-    testUser.setPassword("abina");
-    testUser.save();
+testUser.email = 'abina';
+testUser.name = 'abina';
+testUser.setPassword("abina");
 
 // save user to database
 router.post('/', function() {

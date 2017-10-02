@@ -1,4 +1,6 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
+var openView = "home";
+var fishCount = 0;
 var loadsoffish;
 
 app.config(['$routeProvider', function($routeProvider){
@@ -12,7 +14,7 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
-            
+
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
@@ -109,6 +111,8 @@ app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
+    	openView = "home";
+
         $('body').css( {
             "background" : "url(../../images/fishing_background_1.png)"
         });
@@ -118,8 +122,9 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
-    	//asetetaan backgroundi oikeaksi
+    	openView = "sonar";
 
+    	//asetetaan backgroundi oikeaksi
         $('body').css( {
             "background-image" : "none",
             "background-color" : "black"
@@ -127,7 +132,7 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 
         $(window).resize(function() {
 		  	$(".measuring-line").css( {
-		  		"height" : ($(window).height()-80)+"px"
+		  		"height" : ($(window).height()-160)+"px"
 		  	})
 		  	adjustMeasurementLines();
 		  	adjustSonarWidth();
@@ -135,6 +140,9 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 		  	$(".measuring-line-second").css( {
 		  		"margin-left" : $("#surface-line").width()
 		  	})
+		  	$("#fishContainer").height($(".measuring-line").height());
+		  	$("#fishContainer").width($("#surface-line").width());
+
 		});
 
 		$(window).trigger('resize');
@@ -192,17 +200,42 @@ function addFish(flat,flong,depth,size){
 }
 
 function fishPing(size,depth,locallat){
-    console.log("fishPing general call: " + " " + "depth" + " ");
+    console.log("fishPing general call, size: " + size +  ", depth: " + depth + ", locallat:  " + locallat);
+    if (openView === "sonar") {
+    	addfishIndication(size,depth,locallat);
+    }
 }
 
-function fishIndication {
-	$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
-		+ 'style=" "'
-		+ '/>').appendTo($("body"));
-    console.log("fishPing general call");
-    if (window.location.href.indexOf("sonar") != -1){
-    console.log("fishPing sonar call");
-    }
+function addfishIndication(size,depth,locallat) {
+	let one_meter = $(".measuring-line").height() / 15;
+	console.log("measuring lina Y-suunta korkeus: "+$(".measuring-line").height());
+	let one_meter_lat = $("#surface-line").width() / 30;
+	console.log("Surface line X-suunta leveys: "+$("#surface-line").width());
+	let top = (depth * one_meter);
+	let left = (15 + locallat * one_meter_lat);
+
+	//console.log("margintop is: " + margintop + ", depth is: " + depth
+	// + ", onemeter is: " + one_meter
+	// + ", measuring-line height is: "  + $(".measuring-line").height());
+
+	let style = 'style="top: '+top+'px; left: '+left+'px; "';
+
+	let fishId = ("fishIndication_"+fishCount);
+
+	let fish = '<div '+ style + ' class="fish-indication" id="'+ fishId + '">'
+		+ '<img src="../../images/nemofinder_fish_indicator_4.png" alt="" />'
+	 + '</div>';
+
+	fishId = "#"+fishId;
+	$(fish).appendTo($("[ng-view]"));
+	fishCount++;
+	//console.log("selector: " + $(fishId).attr("selector"));
+
+	$(fishId).fadeOut(2000, function() {
+		//console.log("removing fish: "+fishId);
+		$(fishId).remove();
+	});
+	
 }
 
 
