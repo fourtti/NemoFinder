@@ -1,6 +1,4 @@
             var config = {
-                width: 960, 
-                height: 600,
                 params: { enableDebugging:"0" }
                 
             };

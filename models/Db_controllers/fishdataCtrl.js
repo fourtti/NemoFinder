@@ -41,6 +41,27 @@ module.exports.createFishdata = function(coords,depth,owner,private){
     resolve(newData);
 });
 };
+//creates a new fishdata and saves it
+module.exports.createFishdata = function(coords,depth,private){
+    return new Promise((resolve,reject)=>{
+
+    let newData = new Fishdata();
+
+    newData.coords = coords;
+    newData.depth = depth;
+    //newData.owner = owner;
+    newData.private = private;
+
+    newData.save(function(err){
+        if(err){
+            console.log("could not save fishdata");
+            reject(error);
+        }
+    });
+    resolve(newData);
+});
+};
+
 
 //returns an array of fishdatas based on maxdistance and position
 module.exports.getFishdata = function(maxDistance,count,lng,lat){
