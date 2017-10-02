@@ -23,7 +23,7 @@ let theEarth = (function () {
 
 //creates a new fishdata and saves it
 module.exports.createFishdata = function(coords,depth,owner,private){
-    return new Promise((response,reject)=>{
+    return new Promise((resolve,reject)=>{
 
 	let newData = new Fishdata();
 
@@ -38,13 +38,33 @@ module.exports.createFishdata = function(coords,depth,owner,private){
 			reject(error);
 		}
 	});
-    response();
+    resolve(newData);
+});
+};
+//creates a new fishdata and saves it
+module.exports.createFishdata = function(coords,depth,private){
+    return new Promise((resolve,reject)=>{
+
+    let newData = new Fishdata();
+
+    newData.coords = coords;
+    newData.depth = depth;
+    newData.private = private;
+
+    newData.save(function(err){
+        if(err){
+            console.log("could not save fishdata");
+            reject(error);
+        }
+    });
+    resolve(newData);
 });
 };
 
+
 //returns an array of fishdatas based on maxdistance and position
 module.exports.getFishdata = function(maxDistance,count,lng,lat){
-    return new Promise((response,reject)=>{
+    return new Promise((resolve,reject)=>{
         let data;
 
         //Creating geoJSON point
@@ -55,19 +75,59 @@ module.exports.getFishdata = function(maxDistance,count,lng,lat){
         //geoOptions are required by geoNear
         let geoOptions = {
             spherical: true,
-            maxDistance: theEarth.getRadsFromDistance(parseFloat(maxDistance)),
+            maxDistance: (parseFloat(maxDistance)),
             num: parseFloat(count)
         };
+        //console.log(parseFloat(lng) + ", " + parseFloat(lat) + "    " + geoOptions.maxDistance);
         
         Fishdata.geoNear(point,geoOptions,function(err,results,stats){
         if (err){
             console.log("searching with GeoNear did not work");
             reject(err);
         }
-        response(results);
+        console.log(stats);
+        resolve(results);
 
         });
 
 
     });
-}
+};
+
+// fetches given fishdata from the database, changes object variables to parameter values and saves it.
+module.exports.editFishdata = function(fishdataId,ownerId,coords,depth,owner,private){
+    return new Promise((resolve,reject)=>{
+        Fishdata.findOne({_id:fishdataId,owner:ownerId},function(err,foundData){
+            if(err){
+                console.log('something went wrong when searching for users fishdata');
+                reject(err);
+            }
+            foundData.coords = coords;
+            foundData.depth = depth;
+            foundData.owner = owner;
+            foundData.timeStamp = Date.now();
+            foundData.private = private;
+
+            foundData.save(function(err){
+                if(err){
+                    console.log('Could not save fishdata');
+                    reject(err);
+                }
+            });
+            resolve(foundData);
+        });
+
+    });
+};
+
+module.exports.deleteFishdata = function(ownerId,fishdataId){
+    return new Promise((resolve,reject)=>{
+        Fishdata.find({_id:fishdataId,owner:ownerId}).remove(function(err){
+            if(err){
+                console.log('something went wrong when trying to delete fisdata');
+                reject(err);
+            }
+            resolve();
+        });
+    });
+};

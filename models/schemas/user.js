@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-//const fishDataSchema = mongoose.model('fishData');
+const fishDataSchema = mongoose.model('fishData');
 const jsonWebToken = require('jsonwebtoken');
 
 
@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
 	email: { type: String, unique: true, required: true },
 	name: { type: String, required: true },
 	hash: String,
-	salt: String
-//	fishdata: [fishDataSchema]
+	salt: String,
+	fishdata: [{type: mongoose.Schema.Types.ObjectId, ref: fishDataSchema}]
 	//{type: Array, required: false} 
 	//[fishDataSchema]
 });
