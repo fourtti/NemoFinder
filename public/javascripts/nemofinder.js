@@ -116,8 +116,16 @@ function addFish(lat,long,depth,size){
 }
 
 function fishPing(size,depth,locallat){
-    console.log("fishPing general call");
+    console.log("fishPing general call: " + " " + "depth" + " ");
 }
+
+function fishIndication {
+	$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
+		+ 'style=" "'
+		+ '/>').appendTo($("body"));
+}
+
+
 
 function showDrone(){
     console.log("droning");
