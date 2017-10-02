@@ -1,26 +1,110 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
+var loadsoffish;
 
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/', {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
-            
         }).when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
-
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
+            
+        }).when('/online', {
+            templateUrl: 'partials/online.html',
+            controller: 'OnlineCtrl'
 
         }).when('/drone', {
             templateUrl: 'partials/drone.html',
             controller: 'DroneControl'
 
+        }).when('/localmaps', {
+            templateUrl: 'partials/localmaps.html',
+            controller: 'LocalMapsControl'
+
         }).otherwise({
             redirectTo: '/'
         });
+}]);
+
+app.service("authentication", ["$window","$http", function($window,$http){
+    var saveToken = function (token){
+        $window.localStorage["nemo-token"] = token;
+    };
+    var getToken = function (){
+        return $window.localStorage["nemo-token"];
+    };
+//    var register = function(user){
+//        return $http.post("/users/register", user).success(function(data){
+//            saveToken(data.token);
+//        });
+//    };
+    var login = function(user){
+        return $http.post("/users/login", user).success(function(data){
+            saveToken(data.token);
+        });
+    };
+    var logout = function(){
+        $window.localStorage.removeItem("nemo-token");
+        console.log("token removed");
+
+    };
+    var isLoggedIn = function(){
+        var token = getToken();
+
+        if (token){
+            var payload = JSON.parse($window.atob(token.split(".")[1]));
+
+            return payload.exp > Date.now() / 1000;
+        } else {
+            return false;
+        }
+    };
+    var currentUser = function(){
+        if(isLoggedIn()){
+            var token = getToken();
+            var payload = JSON.parse($window.atob(token.split(".")[1]));
+            return{
+                email: payload.email,
+                name: payload.name
+            };
+        }
+    };
+
+
+    return {
+        saveToken: saveToken,
+        getToken: getToken,
+        //register: register,
+        login: login,
+        logout: logout,
+        isLoggedIn: isLoggedIn,
+        currentUser: currentUser
+    };
+}]);
+
+
+app.controller("LoginCtrl", ["$scope","$location", "authentication",function($scope,$location,authentication){
+    $scope.userLogin = function(){
+        console.log("login function");
+        authentication.login($scope.user).then(function(){
+        console.log('tuli reittiin');
+        $location.path("/online");
+        });
+        
+    };
+}]);
+
+app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.userLogOut = function(){
+        console.log("yritit logata ulos");
+        authentication.logout();
+        console.log("toimi logout");
+        $location.path("/home");   
+    };
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
@@ -31,18 +115,10 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     });
 }]);
 
-app.controller('LoginCtrl', ['$scope', '$resource', 
-	function($scope, $resource){
-    $scope.$on('$viewContentLoaded', function(){
-        //showDrone();
-    });
-
-	}]);
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
     	//asetetaan backgroundi oikeaksi
-        //showDrone();
 
         $('body').css( {
             "background-image" : "none",
@@ -85,16 +161,6 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 				"margin-left" : $("#surface-line").width() / 2
 			})
 		}
-		//X == -15 to +15 (etu-taka)
-		//depth 0 to 15
-		//size 1-26 //arvo, ei kiloja
-
-		function fishPing(size, depth, paramX) {
-			console.log("Fishping called: ");
-			//$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
-			//	+ 'style=""'
-			//	+ '/>').appendTo($("body"));
-		} 
     });
 }]);
 
@@ -107,12 +173,22 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 
     $scope.$on('$destroy', function() {
         showDrone();
-        //document.getElementById("unityPlayer").style.visibility='hidden';
     });
 }]);
 
-function addFish(lat,long,depth,size){
-    console.log("addFish call");
+app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
+}]);
+
+function addFish(flat,flong,depth,size){
+    console.log("addFish general call");
+    if (window.location.href.indexOf("localmaps") != -1){
+    console.log("addFish maps update");
+    var marker = new google.maps.Marker({
+        position: {lat: flat, lng: flong},
+        map: window.map,
+        title: "Fish : "+depth+"m deep, "+size+"kg"
+      });
+    }
 }
 
 function fishPing(size,depth,locallat){
@@ -123,23 +199,28 @@ function fishIndication {
 	$('<img src="../../images/nemofinder_fish_indicator_4.png" alt=""'
 		+ 'style=" "'
 		+ '/>').appendTo($("body"));
+    console.log("fishPing general call");
+    if (window.location.href.indexOf("sonar") != -1){
+    console.log("fishPing sonar call");
+    }
 }
 
 
 
 function showDrone(){
-    console.log("droning");
     if (window.location.href.indexOf("drone") == -1){
         console.log("hide");
-        //document.getElementById("unityPlayer").style.zIndex="-1";
         document.getElementById("unityPlayer").style.visibility='hidden';
     } else {
         console.log("show");
-        //document.getElementById("unityPlayer").style.zIndex="1";
         document.getElementById("unityPlayer").style.visibility='visible';
     }
 }
 
 function hideDrone(){
     showDrone();
+}
+
+function reroute(whereto){
+    console.log("This would handle unity UI redirects, but they currently have issues.");
 }

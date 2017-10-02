@@ -1,0 +1,32 @@
+<div class="panel panel-default text-center">
+<div class="panel-body">NemoFinder</div>
+
+</div>
+    <a type="button" class="btn btn-default" href="/#/">Back</a>
+    <a type="button" class="btn btn-default" onclick='u.getUnity().SendMessage("DroneSonar", "Toggle","");'>Sonar Toggle</a>
+    
+
+    <div id="map"></div>
+    <script>
+    console.log("hurr")
+    function initMap() {
+      var moneylake = {lat: 68.7624646, lng: 27.3234272}; //68.7624646, 27.3234272
+      window.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: moneylake
+      });
+      var marker = new google.maps.Marker({
+        position: moneylake,
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          strokeColor: "red",
+          scale: 3
+         },
+        map: map,
+        title: "Boat"
+      });
+    }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG9dbkrFR5E6zWt4Y86XJ_AjIEPoo1rTI&callback=initMap">
+    </script>

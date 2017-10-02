@@ -1,5 +1,6 @@
 const mongoose = require( 'mongoose' );
-const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server, change to production later.
+// const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server, change to production later.
+const dbUrl = "mongodb://nemo:soundsfishy@ds151024.mlab.com:51024/nemofinder"
 let gracefulShutdown;
 
 mongoose.connect(dbUrl);
@@ -15,6 +16,10 @@ mongoose.connection.on('disconnected', function() {
     console.log('Mongoose disconnected');
 });
 
+// users schema
+// BRING IN YOUR SCHEMAS & MODELS
+require('./schemas/user');
+require('./schemas/fishData');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
@@ -43,7 +48,3 @@ process.on('SIGTERM', function() {
         process.exit(0);
     });
 });
-
-// BRING IN YOUR SCHEMAS & MODELS
-require('./schemas/fishData');
-require("./schemas/users");

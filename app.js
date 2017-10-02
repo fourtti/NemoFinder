@@ -4,7 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+
+//required database and passport configurations
+//require('./models/schemas/fishData');
 require('./models/db');
+require('./routes/passportConfig');
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -13,7 +19,6 @@ var fish = require('./routes/fish');
 var app = express();
 
 var localFishSightings = [];
-
 
 
 // view engine setup
@@ -48,6 +53,15 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// error handlers
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
 });
 
 module.exports = app;
