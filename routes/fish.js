@@ -24,7 +24,7 @@ router.post('/add/:long/:lat/:depth',function(req,res){
 	let lat = req.params.lat;
 	let depth = req.params.depth;
 
-	fishDataCtrl.createFishdata([long,lat],depth,"",true).then(()=>{
+	fishDataCtrl.createFishdata([long,lat],depth,"",false).then(()=>{
 		res.status(200);
 		res.json({message: 'FishData saved!'});
 	}).catch((data)=>{
