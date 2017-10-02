@@ -1,6 +1,6 @@
 const mongoose = require( 'mongoose' );
-// const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server, change to production later.
-const dbUrl = "mongodb://nemo:soundsfishy@ds151024.mlab.com:51024/nemofinder"
+const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server, change to production later.
+//const dbUrl = "mongodb://nemo:soundsfishy@ds151024.mlab.com:51024/nemofinder"
 let gracefulShutdown;
 
 mongoose.connect(dbUrl);

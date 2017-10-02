@@ -3,9 +3,32 @@
 </div>
 <div class="container">
   <br>
-  <div class="row text-center menu-row">
-    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#/">Your maps</a>
-    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#login/">Online maps</a>
-  </div>
-  <input type="button" class="btn btn-primary" value="LogOut" ng-click="userLogOut()"> </input>
+  	<div class="row">
+		<div class="form-group">  	
+		<label>Radius</label>
+			<input class="form-control" type="text" ng-model="search.maxDistance" placeholder="Radius in km">
+		</div>
+		<div class="form-group">  
+		<label>Latitude</label>	
+			<input class="form-control" type="text" ng-model="search.lat" placeholder="Latitude">
+		</div>
+		<div class="form-group">
+		<label>Longitude</label>
+			<input class="form-control" type="text" ng-model="search.long" placeholder="longitude">
+		</div>
+		<div class="form-group">  
+		<label>Amount</label>
+			<input class="form-control" type="text" ng-model="search.amount" placeholder="count">
+		</div>
+
+	</div>
+	<input type="button" class="btn btn-primary" value="search" ng-click="searchFunc()"></input>
+	<ul >
+    <li ng-repeat="data in dataArray">
+    	<p>
+    	{{ data.coords }}
+    	</p>
+    </li>
+</ul>
+	
 </div>

@@ -6,15 +6,19 @@ app.config(['$routeProvider', function($routeProvider){
         .when('/', {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
+        
         }).when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
+
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
+        
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
+        
         }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarInsert'
@@ -54,6 +58,28 @@ app.service("authentication", ["$window","$http", function($window,$http){
         console.log("token removed");
 
     };
+
+/*    var searchFish = function(search) {
+        $http({
+            method: 'GET',
+            URL: search
+            }).then(function successCallback(response) {
+                console.log(response);
+                let dataArray = response.data;
+                return dataArray;
+            // this callback will be called asynchronously
+            // when the response is available
+            }, function errorCallback(response) {
+                console.log(response);
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+        });
+        
+
+        //return $http.get("/fish/list/?" + "long="search.long + "&lat="search.lat +
+        //    "&maxDistance="search.maxDistance + "&amount="search.amount);
+    };*/
+
     var isLoggedIn = function(){
         var token = getToken();
 
@@ -84,7 +110,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
         login: login,
         logout: logout,
         isLoggedIn: isLoggedIn,
-        currentUser: currentUser
+        currentUser: currentUser,
+        //searchFish: searchFish
     };
 }]);
 
@@ -100,13 +127,24 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
     };
 }]);
 
-app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+app.controller("OnlineCtrl", ["$scope", "$resource", "$location", "authentication",function($scope,$resource,$location,authentication){
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
         console.log("toimi logout");
         $location.path("/home");   
     };
+    $scope.searchFunc = function() {
+        console.log("kutsuttu searcFunc");
+        let searchString = "/fish/list/?long=" + $scope.search.long + "&lat=" + $scope.search.lat + "&maxDistance=" + $scope.search.maxDistance + "&amount=" + $scope.search.amount;
+        let fishData = $resource(searchString);
+
+        $scope.data = fishData;
+        console.log(fishData.coords);
+        console.log("loppu searchFunc");
+        
+    };
+
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){

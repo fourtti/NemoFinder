@@ -36,7 +36,7 @@ var testUser = new User();
     testUser.email = 'abina';
     testUser.name = 'abina';
     testUser.setPassword("abina");
-    testUser.save();
+    //testUser.save();
 
 // save user to database
 router.post('/', function() {
