@@ -127,7 +127,7 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
     };
 }]);
 
-app.controller("OnlineCtrl", ["$scope", "$resource", "$location", "authentication",function($scope,$resource,$location,authentication){
+app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
@@ -136,12 +136,26 @@ app.controller("OnlineCtrl", ["$scope", "$resource", "$location", "authenticatio
     };
     $scope.searchFunc = function() {
         console.log("kutsuttu searcFunc");
+        //let searchString = "/fish/list/?long=68.758074&lat=27.344197&maxDistance=10&amount=3"
         let searchString = "/fish/list/?long=" + $scope.search.long + "&lat=" + $scope.search.lat + "&maxDistance=" + $scope.search.maxDistance + "&amount=" + $scope.search.amount;
-        let fishData = $resource(searchString);
+        $http({
+            method: 'GET',
+            url: searchString
 
-        $scope.data = fishData;
-        console.log(fishData.coords);
-        console.log("loppu searchFunc");
+            // success asynchronously when the response is available
+            }).then(function successCallback(response) {
+                //console.log(response);
+                //let data = response;
+                $scope.dataArray = response.data;
+                console.log(response);
+                //response[1].obj._id
+
+            // if an error occurs
+            }, function errorCallback(response) {
+                console.log("shit they are on to us");
+
+        });
+
         
     };
 

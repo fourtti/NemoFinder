@@ -24,10 +24,10 @@
 	</div>
 	<input type="button" class="btn btn-primary" value="search" ng-click="searchFunc()"></input>
 	<ul >
-    <li ng-repeat="data in dataArray">
-    	<p>
-    	{{ data.coords }}
-    	</p>
+    <li ng-repeat="dataItem in dataArray">
+    	<div>
+    	{{dataItem.obj._id}}
+    	</div>
     </li>
 </ul>
 	
