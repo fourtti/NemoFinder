@@ -176,3 +176,8 @@ div.broken, div.missing {
 }
 
 /*------------------------------------------------------------- */
+
+/*  Onlinemap css  */
+.onlinemaptext {
+	width: 20%;
+}

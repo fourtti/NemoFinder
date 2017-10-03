@@ -2,7 +2,7 @@ var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
 //localStorage.setItem('fishdata', JSON.stringify([]));
 var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 
-if((window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined')){
+if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined'){
     console.log("setting up data storage");
     loadsoffish = [];
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish)); 
@@ -124,7 +124,7 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
     };
 }]);
 
-app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
+app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
     $scope.user = authentication.currentUser();
     $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
@@ -133,6 +133,7 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
         console.log("toimi logout");
         $location.path("/home");   
     };
+
 }]);
 
 app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
