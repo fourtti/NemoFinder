@@ -1,7 +1,19 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
+//localStorage.setItem('fishdata', JSON.stringify([]));
+var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
+
+if((window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined')){
+    console.log("setting up data storage");
+    loadsoffish = [];
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish)); 
+} else {
+    var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
+}
+//typeof loadsoffish !== 'undefined' && loadsoffish !== null
+
 var openView = "home";
 var fishCount = 0;
-var loadsoffish;
+
 
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
@@ -20,6 +32,10 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
+        
+        }).when('/onlinemap', {
+            templateUrl: 'partials/onlinemap.html',
+            controller: 'OnlineMapCtrl'
         
         }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
             templateUrl: 'partials/sonar.html',
@@ -78,7 +94,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
             var payload = JSON.parse($window.atob(token.split(".")[1]));
             return{
                 email: payload.email,
-                name: payload.name
+                name: payload.name,
+                id: payload._id
             };
         }
     };
@@ -108,12 +125,26 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
 }]);
 
 app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
         console.log("toimi logout");
         $location.path("/home");   
     };
+}]);
+
+app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
+    $scope.userLogOut = function(){
+        console.log("yritit logata ulos");
+        authentication.logout();
+        console.log("toimi logout");
+        $location.path("/home");   
+    };
+
     $scope.searchFunc = function() {
         console.log("kutsuttu searcFunc");
         let searchString = "/fish/list/?long=" + $scope.search.long + "&lat=" + $scope.search.lat + "&maxDistance=" + $scope.search.maxDistance + "&amount=" + $scope.search.amount;
@@ -123,45 +154,14 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
 
             // success asynchronously when the response is available
             }).then(function successCallback(response) {
-                //$scope.data = response.data;
-                console.log(response);
-                //let dayta = response.data;
-                //console.log(dayta[0].children[1]);
                 let dataArray = response.data;
-                console.log(dataArray);
 
                 let location = { lat: parseFloat($scope.search.lat), lng: parseFloat($scope.search.long) };
                 window.map.setCenter(location);
 
-/*                for (var i = 0; i <= dataArray.lenght-1; i++) {
-                    console.log("iteroi arrayta");
-                    var lat = item[i].obj.coords[0];
-                    var long = item[i].obj.coords[1];
-
-                    var marker = new google.maps.Marker({
-
-                        position: {lat: lat, lng: long },
-                        icon: {
-                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                            strokeColor: "red",
-                            scale: 3
-                        },
-                    map: window.map,
-                    title: "Boat"
-                    
-                    });
-                    i++;
-                    console.log("yrityksen jälkeen markkeria");
-                }
-
-                
-*/
-
-
-
                 for(item in dataArray) {
                     if(dataArray.hasOwnProperty(item)){
-                        console.log("iteroi arrayta");
+                        console.log("iterate array");
                         let long = dataArray[item].obj.coords[0];
                         let lat = dataArray[item].obj.coords[1]; 
 
@@ -176,24 +176,23 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
                         map: window.map,
                         title: "Boat"
                         });
-                        console.log("yrityksen jälkeen markkeria");
+                        console.log("after marker attempt");
                     }
                 }
        
             // if an error occurs
             }, function errorCallback(response) {
                 console.log("shit they are on to us");
-
         });
-
-        
     };
 
 }]);
 
+
+
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
-    	openView = "home";
+        openView = "home";
 
         $('body').css( {
             "background" : "url(../../images/fishing_background_1.png)"
@@ -204,54 +203,54 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
-    	openView = "sonar";
+        openView = "sonar";
 
-    	//asetetaan backgroundi oikeaksi
+        //asetetaan backgroundi oikeaksi
         $('body').css( {
             "background-image" : "none",
             "background-color" : "black"
         });
 
         $(window).resize(function() {
-		  	$(".measuring-line").css( {
-		  		"height" : ($(window).height()-160)+"px"
-		  	})
-		  	adjustMeasurementLines();
-		  	adjustSonarWidth();
-		  	adjustSonarIndicator();
-		  	$(".measuring-line-second").css( {
-		  		"margin-left" : $("#surface-line").width()
-		  	})
-		  	$("#fishContainer").height($(".measuring-line").height());
-		  	$("#fishContainer").width($("#surface-line").width());
+            $(".measuring-line").css( {
+                "height" : ($(window).height()-160)+"px"
+            })
+            adjustMeasurementLines();
+            adjustSonarWidth();
+            adjustSonarIndicator();
+            $(".measuring-line-second").css( {
+                "margin-left" : $("#surface-line").width()
+            })
+            $("#fishContainer").height($(".measuring-line").height());
+            $("#fishContainer").width($("#surface-line").width());
 
-		});
+        });
 
-		$(window).trigger('resize');
+        $(window).trigger('resize');
         //startTimer();
 
-		function adjustMeasurementLines() {
-			var fromtop = $('.measuring-line-first').height()/5 - 2;
-			$('.measuring-line-first').children('div').each(function () {
-				if (!($(this).is(':first-child'))) {
-					$(this).css( {
-		    			"margin-top" : fromtop+"px"
-		    		})
-				}
-			});
-		}
+        function adjustMeasurementLines() {
+            var fromtop = $('.measuring-line-first').height()/5 - 2;
+            $('.measuring-line-first').children('div').each(function () {
+                if (!($(this).is(':first-child'))) {
+                    $(this).css( {
+                        "margin-top" : fromtop+"px"
+                    })
+                }
+            });
+        }
 
-		function adjustSonarWidth() {
-			$("#surface-line").css( {
-				"width" : $(".measuring-line").height() * 2
-			})
-		}
+        function adjustSonarWidth() {
+            $("#surface-line").css( {
+                "width" : $(".measuring-line").height() * 2
+            })
+        }
 
-		function adjustSonarIndicator() {
-			$("#radar-indicator").css( {
-				"margin-left" : $("#surface-line").width() / 2
-			})
-		}
+        function adjustSonarIndicator() {
+            $("#radar-indicator").css( {
+                "margin-left" : $("#surface-line").width() / 2
+            })
+        }
 
         //var myDelay = 2000;
         //var thisDelay = 2000;
@@ -290,27 +289,45 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
 }]);
 
-function addFish(flat,flong,depth,size){
+function addFish(flat,flong,size,depth){
     console.log("addFish general call");
+    loadsoffish.push([flat,flong,depth,size]);
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
     if (window.location.href.indexOf("localmaps") != -1){
     console.log("addFish maps update");
-
     $injector = angular.element(document).injector();
     $injector.get('$http').post('fish/add/'+flong+'/'+flat+'/'+depth);
 
     var marker = new google.maps.Marker({
         position: {lat: flat, lng: flong},
         map: window.map,
-        title: "Fish : "+depth+"m deep, "+size+"kg"
-
+        title: "Fish : "+depth+"m deep, "+size+'kg'
       });
     }
 }
 
+function fishestomap(){
+    console.log("mapping fishes");
+      for(let i = 0; i < loadsoffish.length; i++){
+        console.log("fish #"+i);
+        var marker = new google.maps.Marker({
+            position: {lat: loadsoffish[i][parseFloat(0)], lng: loadsoffish[i][parseFloat(1)]},
+            map: window.map,
+            title: "Fish : "+loadsoffish[i][2]+"m deep, "+loadsoffish[i][3]+'kg'
+            });
+        };
+    };
+
+function clearfishes(){
+    loadsoffish=[];
+    localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
+}
+
+
 function fishPing(size,depth,locallat){
     console.log("fishPing general call, size: " + size +  ", depth: " + depth + ", locallat:  " + locallat);
     if (openView === "sonar") {
-    	addfishIndication(size,depth,locallat);
+        addfishIndication(size,depth,locallat);
     }
 }
 
@@ -318,9 +335,9 @@ function addfishIndication(size,depth,locallat) {
     let fishWidth = 20 + size * 5.5;
     let fishHeight = 0.47619047619 * fishWidth;
 
-	let one_meter = $(".measuring-line").height() / 15;
-	let top = (depth * one_meter) - (fishHeight / 2);
-	let left = (15 * one_meter) + ((locallat) * one_meter) - (fishWidth / 2);
+    let one_meter = $(".measuring-line").height() / 15;
+    let top = (depth * one_meter) - (fishHeight / 2);
+    let left = (15 * one_meter) + ((locallat) * one_meter) - (fishWidth / 2);
 
 
     //ratio: korkeus = 0.47619047619 * leveys
@@ -339,24 +356,24 @@ function addfishIndication(size,depth,locallat) {
         + "left: " + left + "\n"
         );
 
-	let style = 'style="top: '+top+'px; left: '+left+'px; height : '+fishHeight+'px;  width: '+fishWidth+'px;   "';
+    let style = 'style="top: '+top+'px; left: '+left+'px; height : '+fishHeight+'px;  width: '+fishWidth+'px;   "';
 
-	let fishId = ("fishIndication_"+fishCount);
+    let fishId = ("fishIndication_"+fishCount);
 
-	let fish = '<div '+ style + ' class="fish-indication" id="'+ fishId + '">'
-	 + '</div>';
+    let fish = '<div '+ style + ' class="fish-indication" id="'+ fishId + '">'
+     + '</div>';
 
-	fishId = "#"+fishId;
-	$(fish).appendTo($("#fishContainer"));
-	fishCount++;
-	//console.log("selector: " + $(fishId).attr("selector"));
+    fishId = "#"+fishId;
+    $(fish).appendTo($("#fishContainer"));
+    fishCount++;
+    //console.log("selector: " + $(fishId).attr("selector"));
 
-	$(fishId).fadeOut(2000, function() {
-		//console.log("removing fish: "+fishId);
+    $(fishId).fadeOut(2000, function() {
+        //console.log("removing fish: "+fishId);
         $(fishId).remove();
         
-	});
-	
+    });
+    
 }
 
 

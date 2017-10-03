@@ -1,54 +1,16 @@
-<div class="panel panel-default text-center">
-  <div class="panel-body">NemoFinder ONLINE</div>
-</div>
-<div class="container">
-  <br>
-  	<div class="row">
-		<div class="form-group">  	
-		<label>Radius</label>
-			<input class="form-control" type="text" ng-model="search.maxDistance" placeholder="1.0">
-		</div>
-		<div class="form-group">  
-		<label>Latitude</label>	
-			<input class="form-control" type="text" id="lat" ng-model="search.lat" placeholder="0.0">
-		</div>
-		<div class="form-group">
-		<label>Longitude</label>
-			<input class="form-control" type="text" id="long" ng-model="search.long" placeholder="0.0">
-		</div>
-		<div class="form-group">  
-		<label>Amount</label>
-			<input class="form-control" type="text" ng-model="search.amount" placeholder="1">
-		</div>
-
-	</div>
-	<input type="button" class="btn btn-primary" value="search" ng-click="searchFunc()"></input>
-	<div id="map" ng-hide=""></div>
-	<ul >
-    <!--	
-    	<li ng-repeat="dataItem in dataArray">
-    		<div>
-    		{{dataItem.obj.coords}}
-    		</div>
-    	</li>
-    -->
-	</ul>
-
-    <script>
-    console.log("hurr")
-    function initMap() {
-
-      var location = { lat: 0.0, lng: 0.0 };
-      //{lat: document.getElementById('lat'), lng: document.getElementById('long') };
-      window.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: location
-      });
-
-    }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG9dbkrFR5E6zWt4Y86XJ_AjIEPoo1rTI&callback=initMap">
-    </script>
-	
-</div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+    	
+    </ul>
+  </div>
+</nav>

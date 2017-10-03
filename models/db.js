@@ -21,6 +21,7 @@ mongoose.connection.on('disconnected', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./schemas/fishData');
 require('./schemas/user');
+require('./schemas/map');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS

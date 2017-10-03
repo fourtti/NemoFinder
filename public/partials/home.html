@@ -3,12 +3,12 @@
 </div>
 <div class="container">
   <div class="row text-center menu-row">
-  	<a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#sonar/">Sonar only</a>
-  	<a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#drone/">Drone</a>
-  </div>
-  <br>
-  <div class="row text-center menu-row">
-    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#localmaps/">Your maps</a>
-    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#login/">Online maps</a>
+  	<a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#sonar/">My Maps</a>
+    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#drone/">Gather Data</a>
+
+    <!--Button is hidden if user is not logged in -->
+    <a ng-hide="!userIsLoggedIn" type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#online/">Online Maps</a>
+    <!--This button is shown only if user is not logged in -->
+    <a ng-hide="userIsLoggedIn" type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#login/">Online Maps</a>
   </div>
 </div>

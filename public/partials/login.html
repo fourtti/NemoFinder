@@ -5,16 +5,18 @@
 
 		<div class="col-md-3"></div>
 		<div class="col-md-6 loginpad">
+		<form>
 			<div class="form-group">
         	<!--add ng-model-->
 				<input class="form-control" type="text" id="username" ng-model="user.username" placeholder="Enter username">
 			</div>
 			<div class="form-group">
         	<!--add ng-model-->
-				<input class="form-control" type="text" id="password" ng-model="user.password" placeholder="Enter password">
+				<input class="form-control" type="password" id="password" ng-model="user.password" placeholder="Enter password">
 			</div>
 
-			<input type="button" class="btn btn-primary" value="Login" ng-click="userLogin()"></input>
+			<input type="button" class="btn btn-primary form-group" value="Login" ng-click="userLogin()"></input>
+		</form>
 		</div>
 		
 	</div>
