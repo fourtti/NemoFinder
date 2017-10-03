@@ -114,14 +114,15 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
 }]);
 
 app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
         console.log("toimi logout");
         $location.path("/home");   
     };
-    $scope.user = authentication.currentUser();
-    $scope.isLoggedIn = authentication.isLoggedIn();
+
 
 }]);
 
