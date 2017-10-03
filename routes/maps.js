@@ -5,10 +5,10 @@ const mapCtrl = require('../models/Db_controllers/mapCtrl');
 
 //creates a new Map for the given user and saves it in the database
 router.post('/new',function(req,res){
-	let name = req.body.name;
-	let fishdata = req.body.fishdata;
-	let owner = req.body.owner;
-	let private = req.body.private;
+    let name = req.body.name;
+    let fishdata = req.body.fishdata;
+    let owner = req.body.owner;
+    let private = req.body.private;
 
 
 	if(!name || !fishdata || !private || !owner){

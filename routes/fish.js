@@ -57,10 +57,6 @@ router.get('/list',function(req,res){
 			throw err;
 		});
 
-
-
-
-
 	}
 
 

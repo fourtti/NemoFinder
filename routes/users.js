@@ -35,19 +35,8 @@ testUser.email = 'abina';
 testUser.name = 'abina';
 testUser.setPassword("abina");
 
-// save user to database
-router.post('/', function() {
-    testUser.save(function(err){
-        var token;
-        if (err) {throw err;}
-        else {
-            token = user.generateJwt();
-            res.status(200);
-            res.json({"token": token});
+    //testUser.save();
 
-        }
-    });
-}); 
 
 router.post('/register',function(req,res){
     if(!req.body.email || !req.body.password || !req.body.name){
