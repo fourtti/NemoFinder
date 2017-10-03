@@ -123,8 +123,63 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
 
             // success asynchronously when the response is available
             }).then(function successCallback(response) {
-                $scope.dataArray = response.data;
+                //$scope.data = response.data;
+                console.log(response);
+                //let dayta = response.data;
+                //console.log(dayta[0].children[1]);
+                let dataArray = response.data;
+                console.log(dataArray);
 
+                let location = { lat: parseFloat($scope.search.lat), lng: parseFloat($scope.search.long) };
+                window.map.setCenter(location);
+
+/*                for (var i = 0; i <= dataArray.lenght-1; i++) {
+                    console.log("iteroi arrayta");
+                    var lat = item[i].obj.coords[0];
+                    var long = item[i].obj.coords[1];
+
+                    var marker = new google.maps.Marker({
+
+                        position: {lat: lat, lng: long },
+                        icon: {
+                            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                            strokeColor: "red",
+                            scale: 3
+                        },
+                    map: window.map,
+                    title: "Boat"
+                    
+                    });
+                    i++;
+                    console.log("yrityksen jälkeen markkeria");
+                }
+
+                
+*/
+
+
+
+                for(item in dataArray) {
+                    if(dataArray.hasOwnProperty(item)){
+                        console.log("iteroi arrayta");
+                        let long = dataArray[item].obj.coords[0];
+                        let lat = dataArray[item].obj.coords[1]; 
+
+                        let marker = new google.maps.Marker({
+
+                            position: {lat: lat, lng: long },
+                            icon: {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                strokeColor: "red",
+                                scale: 3
+                            },
+                        map: window.map,
+                        title: "Boat"
+                        });
+                        console.log("yrityksen jälkeen markkeria");
+                    }
+                }
+       
             // if an error occurs
             }, function errorCallback(response) {
                 console.log("shit they are on to us");
