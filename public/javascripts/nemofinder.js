@@ -2,7 +2,7 @@ var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
 //localStorage.setItem('fishdata', JSON.stringify([]));
 var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 
-if((window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined')){
+if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined'){
     console.log("setting up data storage");
     loadsoffish = [];
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish)); 
