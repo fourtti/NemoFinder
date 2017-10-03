@@ -80,7 +80,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
             var payload = JSON.parse($window.atob(token.split(".")[1]));
             return{
                 email: payload.email,
-                name: payload.name
+                name: payload.name,
+                id: payload._id
             };
         }
     };
@@ -116,6 +117,9 @@ app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($
         console.log("toimi logout");
         $location.path("/home");   
     };
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
+
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
