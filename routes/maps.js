@@ -63,3 +63,4 @@ router.get('/:id/fishdata',function(req,res){
 	});
 });
 
+module.exports = router;
