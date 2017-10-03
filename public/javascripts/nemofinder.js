@@ -229,17 +229,6 @@ function clearfishes(){
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
 }
 
-function sonaron(){
-    const btn=document.getElementById('togglebtn');
-    btn.onClick='sonaroff()';
-    btn.innerHTML='herp';
-}
-
-function sonaroff(){
-    const btn=document.getElementById('togglebtn');
-    btn.onClick='sonaron();
-    btn.innerHTML='derp';
-}
 
 function fishPing(size,depth,locallat){
     //console.log("fishPing general call");
