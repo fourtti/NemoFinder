@@ -15,8 +15,6 @@ const auth = jwt({
 });
 
 
-
-
 // returns a list of all users as an array contains hashes 'n stuff might want to delete in production 
 router.get('/',function(req,res){
 	var getUsers = userCtrl.getAllUsers();
@@ -29,33 +27,15 @@ router.get('/',function(req,res){
 		res.json(err);
 	});
 });
-/*
+
 // create a user a new user
 var testUser = new User();
-/*
+testUser.email = 'abina';
+testUser.name = 'abina';
+testUser.setPassword("abina");
 
-    testUser.email = 'abina';
-    testUser.name = 'abina';
-    testUser.setPassword("abina");
     //testUser.save();
 
-
-
-*/
-
-// save user to database
-router.post('/', function() {
-    testUser.save(function(err){
-        var token;
-        if (err) {throw err;}
-        else {
-            token = user.generateJwt();
-            res.status(200);
-            res.json({"token": token});
-
-        }
-    });
-}); 
 
 router.post('/register',function(req,res){
     if(!req.body.email || !req.body.password || !req.body.name){
