@@ -61,27 +61,6 @@ app.service("authentication", ["$window","$http", function($window,$http){
 
     };
 
-/*    var searchFish = function(search) {
-        $http({
-            method: 'GET',
-            URL: search
-            }).then(function successCallback(response) {
-                console.log(response);
-                let dataArray = response.data;
-                return dataArray;
-            // this callback will be called asynchronously
-            // when the response is available
-            }, function errorCallback(response) {
-                console.log(response);
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-        });
-        
-
-        //return $http.get("/fish/list/?" + "long="search.long + "&lat="search.lat +
-        //    "&maxDistance="search.maxDistance + "&amount="search.amount);
-    };*/
-
     var isLoggedIn = function(){
         var token = getToken();
 
@@ -113,7 +92,6 @@ app.service("authentication", ["$window","$http", function($window,$http){
         logout: logout,
         isLoggedIn: isLoggedIn,
         currentUser: currentUser,
-        //searchFish: searchFish
     };
 }]);
 
@@ -138,7 +116,6 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
     };
     $scope.searchFunc = function() {
         console.log("kutsuttu searcFunc");
-        //let searchString = "/fish/list/?long=68.758074&lat=27.344197&maxDistance=10&amount=3"
         let searchString = "/fish/list/?long=" + $scope.search.long + "&lat=" + $scope.search.lat + "&maxDistance=" + $scope.search.maxDistance + "&amount=" + $scope.search.amount;
         $http({
             method: 'GET',
@@ -146,11 +123,7 @@ app.controller("OnlineCtrl", ["$scope", "$http", "$location", "authentication",f
 
             // success asynchronously when the response is available
             }).then(function successCallback(response) {
-                //console.log(response);
-                //let data = response;
                 $scope.dataArray = response.data;
-                console.log(response);
-                //response[1].obj._id
 
             // if an error occurs
             }, function errorCallback(response) {
