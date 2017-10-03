@@ -167,12 +167,12 @@ div.broken, div.missing {
 	width: 193px;
 }
 
-      #map {
-        width: 70%;
-        height: 500px;
-        background-color: grey;
-        margin-left: auto;
-        margin-right: auto;
-      }
+#map {
+    width: 70%;
+    height: 500px;
+    background-color: grey;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /*------------------------------------------------------------- */

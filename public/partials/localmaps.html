@@ -3,15 +3,16 @@
 
 </div>
 <div id='buttons'>
-    <a type="button" class="btn btn-default" href="/#/">Back</a>
     <a type="button" class="btn btn-default" href="/#/drone">Drone</a>
-    <a type="button" class="btn btn-default" onclick='u.getUnity().SendMessage("DroneSonar", "Toggle","");'>Sonar Toggle</a>
+    <a type="button" class="btn btn-default" href="/#/">Home</a>
+    <a type="button" class="btn btn-default" href="/#/sonar">Sonar</a>
+    <a type="button" id='togglebtn' class="btn btn-default" onclick='sonaron();'>Sonar ON</a>
+    <a type="button" class="btn btn-default" onclick='clearfishes();'>Clear Local Data</a>
   </div>
     
 
     <div id="map"></div>
     <script>
-    console.log("hurr")
     function initMap() {
       var moneylake = {lat: 68.7624646, lng: 27.3234272}; //68.7624646, 27.3234272
       window.map = new google.maps.Map(document.getElementById('map'), {
@@ -28,7 +29,8 @@
         map: map,
         title: "Boat"
       });
-    }
+      fishestomap();
+    };
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG9dbkrFR5E6zWt4Y86XJ_AjIEPoo1rTI&callback=initMap">
