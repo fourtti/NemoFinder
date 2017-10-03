@@ -27,7 +27,7 @@ router.get('/',function(req,res){
 		res.json(err);
 	});
 });
-/*
+
 // create a user a new user
 var testUser = new User();
 testUser.email = 'abina';
