@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 let MapModel = mongoose.model("Map");
 let User = mongoose.model("UserModel");
+let fishModel = mongoose.model("fishData");
 
 // creates a new map with given parameters and saves it in the database
 module.exports.createNewMap = function(name,fishdata,owner,private){
@@ -13,12 +14,12 @@ module.exports.createNewMap = function(name,fishdata,owner,private){
 		newMap.owner = owner;
 		newMap.private = private;
 
-		newMap.save(function(err,savedMap){
+		newMap.save(function(err){
 			if(err){
 				console.log("could not create new map");
 				reject(err);
 			}
-			resolve(savedMap);
+			resolve(newMap);
 		});
 	});
 };
@@ -45,13 +46,20 @@ module.exports.getMapFishdata = function(id){
 				reject(err);
 			}
 
-			MapModel.find({
-				_id: { $in: map.fishdata}
+			//converting all fishmap ids to objectID type
+			fishmapIdArray = [];
+			map.fishdata.forEach(function(i){
+				fishmapIdArray.push(new mongoose.Types.ObjectId(i));
+			});
+
+			fishModel.find({
+				'_id': { $in: fishmapIdArray}
 			}, function(err,dataArray){
 				if(err){
 					console.log("something went wrong when searching for a maps fishdata");
 					reject(err);
 				}
+				
 				resolve(dataArray);
 			});
 		});
