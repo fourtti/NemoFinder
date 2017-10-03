@@ -146,6 +146,7 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 		});
 
 		$(window).trigger('resize');
+        //startTimer();
 
 		function adjustMeasurementLines() {
 			var fromtop = $('.measuring-line-first').height()/5 - 2;
@@ -169,10 +170,30 @@ app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
 				"margin-left" : $("#surface-line").width() / 2
 			})
 		}
+
+        //var myDelay = 2000;
+        //var thisDelay = 2000;
+        //var start = Date.now();
+
+        //simuloitu kalat javascriptin sisältä, ei tarvitse unity
+        function startTimer() {    
+            setTimeout(function() {
+                var randomSize = getRandomArbitrary(1, 21);
+                var randomDepth = getRandomArbitrary(1, 15);
+                var randomLat = getRandomArbitrary(-15, 15);
+                fishPing(randomSize, randomDepth, randomLat);
+                var actual = Date.now() - start;
+                thisDelay = myDelay - (actual - myDelay);
+                start = Date.now();
+                startTimer();
+            }, thisDelay);
+        }
     });
 }]);
 
-
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 app.controller('DroneControl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
@@ -207,33 +228,46 @@ function fishPing(size,depth,locallat){
 }
 
 function addfishIndication(size,depth,locallat) {
+    let fishWidth = 20 + size * 5.5;
+    let fishHeight = 0.47619047619 * fishWidth;
+
 	let one_meter = $(".measuring-line").height() / 15;
-	console.log("measuring lina Y-suunta korkeus: "+$(".measuring-line").height());
-	let one_meter_lat = $("#surface-line").width() / 30;
-	console.log("Surface line X-suunta leveys: "+$("#surface-line").width());
-	let top = (depth * one_meter);
-	let left = (15 + locallat * one_meter_lat);
+	let top = (depth * one_meter) - (fishHeight / 2);
+	let left = (15 * one_meter) + ((locallat) * one_meter) - (fishWidth / 2);
 
-	//console.log("margintop is: " + margintop + ", depth is: " + depth
-	// + ", onemeter is: " + one_meter
-	// + ", measuring-line height is: "  + $(".measuring-line").height());
 
-	let style = 'style="top: '+top+'px; left: '+left+'px; "';
+    //ratio: korkeus = 0.47619047619 * leveys
+    //kala maz koko = 300.0width + 142.857142857 height
+    //vaihtelu = 40-250
+    //1 kokoyksikkö = 8.4 leveys pikseliä
+
+    console.log("creating fish with attributes:\n"
+        + "size: "+size + "\n"
+        + "depth: " + depth + "\n"
+        + "local lat: " + locallat + "\n"
+        + "Y-line height: " + $(".measuring-line").height() + "\n"
+        + "one meter Y: " + one_meter + "\n"
+        + "X-line width: " + $("#surface-line").width() + "\n"
+        + "top: " + top + "\n"
+        + "left: " + left + "\n"
+        );
+
+	let style = 'style="top: '+top+'px; left: '+left+'px; height : '+fishHeight+'px;  width: '+fishWidth+'px;   "';
 
 	let fishId = ("fishIndication_"+fishCount);
 
 	let fish = '<div '+ style + ' class="fish-indication" id="'+ fishId + '">'
-		+ '<img src="../../images/nemofinder_fish_indicator_4.png" alt="" />'
 	 + '</div>';
 
 	fishId = "#"+fishId;
-	$(fish).appendTo($("[ng-view]"));
+	$(fish).appendTo($("#fishContainer"));
 	fishCount++;
 	//console.log("selector: " + $(fishId).attr("selector"));
 
 	$(fishId).fadeOut(2000, function() {
 		//console.log("removing fish: "+fishId);
-		$(fishId).remove();
+        $(fishId).remove();
+        
 	});
 	
 }

@@ -114,12 +114,19 @@ a {
 
 .fish-indication {
 	z-index: 3;
-	position: relative;
+	position: absolute;
 	display: block;
+	background: url(../../images/nemofinder_fish_indicator_5.png);
+	background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 100% 100%;
+    background-attachment: scroll;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #fishContainer {
-	border: 1px solid white;
 	position: absolute;
 	top: 50px;
 	left: 0px;
