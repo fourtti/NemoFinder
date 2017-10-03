@@ -1,7 +1,8 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: url(../../images/fishing_background_1.png);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   z-index: 0;
 }
 
@@ -111,11 +112,31 @@ a {
 	        animation: bannermove 30s linear infinite;
 } 
 
-@keyframes "bannermove" {  0% { margin-left: 0px;}  100% { margin-left: -2032px;} } 
+.fish-indication {
+	z-index: 3;
+	position: absolute;
+	display: block;
+	background: url(../../images/nemofinder_fish_indicator_5.png);
+	background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 100% 100%;
+    background-attachment: scroll;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#fishContainer {
+	position: absolute;
+	top: 50px;
+	left: 0px;
+}
+
+@keyframes bannermove {  0% { margin-left: 0px;}  100% { margin-left: -2032px;} } 
 @-moz-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-webkit-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-ms-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
-@-o-keyframes "bannermove" {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-webkit-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-ms-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
+@-o-keyframes bannermove {  0% {    margin-left: 0px;  }  100% {    margin-left: -2032px;  }  }
 
 
 /* ---------------------- DRONE VIEW --------------------- */
