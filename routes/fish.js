@@ -19,17 +19,18 @@ router.put('/local/X/:xParam/Y/:yParam/weight/:weightParam', function(req, res) 
 //Test route for adding a single fishdata to the database without owner
 // REMEMBER TO DELETE BEFORE RETURN OF PROJECT AND REPLACE WITH CORRECT IMPLEMENTATION AFTER ATHENTICATION IS ADDED
 router.post('/add/:long/:lat/:depth',function(req,res){
-	
+	console.log("whoooooasdad");
 	let long = req.params.long;
 	let lat = req.params.lat;
 	let depth = req.params.depth;
+
 
 	fishDataCtrl.createFishdata([long,lat],depth,false).then(()=>{
 		res.status(200);
 		res.json({message: 'FishData saved!'});
 	}).catch((data)=>{
-		res.status(200);
-		res.json(data);
+		res.status(400);
+		res.json({error: data});
 	});
 
 
@@ -49,7 +50,6 @@ router.get('/list',function(req,res){
 		let data = fishDataCtrl.getFishdata(maxDistance,count,long,lat);
 		data.then((data)=>{
 			res.status(200);
-			console.log(data);
 			res.json(data);
 		}).catch((err)=>{
 			res.status(400);

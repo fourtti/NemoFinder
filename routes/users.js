@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../models/Db_controllers/userCtrl');
-let fishDataCtrl = require('../models/Db_controllers/fishdataCtrl');
+const fishDataCtrl = require('../models/Db_controllers/fishdataCtrl');
+const mapCtrl = require('../models/Db_controllers/mapCtrl');
 
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -114,6 +115,18 @@ router.get('/:id',auth, function(req,res){
     });
 });
 
+//returns an array of all the maps the parameter user owns
+router.get('/:id/maps',auth, function(req,res){
+    const id = req.params.id;
+
+    mapCtrl.getUserMaps(id).then((data)=>{
+        res.status(200);
+        res.json(data);
+    }).catch((err)=>{
+        res.status(400);
+        res.json({message:"Error when looking for users maps", Error: err});
+    });
+});
 
 // returns all fishdata of parameter user as an array. Requires authentication
 router.get('/:id/coordinates', auth,function(req,res){

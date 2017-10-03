@@ -1,5 +1,6 @@
 const mongoose = require( 'mongoose' );
 
+
 //const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server
 const dbUrl = "mongodb://nemo:soundsfishy@ds151024.mlab.com:51024/nemofinder"
 
@@ -23,6 +24,7 @@ mongoose.connection.on('disconnected', function() {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./schemas/fishData');
 require('./schemas/user');
+require('./schemas/map');
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
