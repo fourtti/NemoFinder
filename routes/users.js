@@ -16,8 +16,6 @@ const auth = jwt({
 });
 
 
-
-
 // returns a list of all users as an array contains hashes 'n stuff might want to delete in production 
 router.get('/',function(req,res){
 	var getUsers = userCtrl.getAllUsers();
@@ -30,16 +28,13 @@ router.get('/',function(req,res){
 		res.json(err);
 	});
 });
-/*
+
 // create a user a new user
 var testUser = new User();
-/*
+testUser.email = 'abina';
+testUser.name = 'abina';
+testUser.setPassword("abina");
 
-    testUser.email = 'abina';
-    testUser.name = 'abina';
-    testUser.setPassword("abina");
-    testUser.save();
-*/
 // save user to database
 router.post('/', function() {
     testUser.save(function(err){
