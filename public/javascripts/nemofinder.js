@@ -1,13 +1,18 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
+//localStorage.setItem('fishdata', JSON.stringify([]));
 var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 
-if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined'){
+if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined')){
     console.log("setting up data storage");
     loadsoffish = [];
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish)); 
 } else {
     var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 }
+//typeof loadsoffish !== 'undefined' && loadsoffish !== null
+
+var openView = "home";
+var fishCount = 0;
 
 
 app.config(['$routeProvider', function($routeProvider){
@@ -21,12 +26,10 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
+
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
-        }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
-            templateUrl: 'partials/sonar.html',
-            controller: 'SonarInsert'
 
         }).when('/drone', {
             templateUrl: 'partials/drone.html',
@@ -120,6 +123,8 @@ app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
+        openView = "home";
+
         $('body').css( {
             "background" : "url(../../images/fishing_background_1.png)"
         });
@@ -129,56 +134,78 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
 
 app.controller('SonarCtrl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
-    	//asetetaan backgroundi oikeaksi
+        openView = "sonar";
 
+        //asetetaan backgroundi oikeaksi
         $('body').css( {
             "background-image" : "none",
             "background-color" : "black"
         });
 
         $(window).resize(function() {
-		  	$(".measuring-line").css( {
-		  		"height" : ($(window).height()-80)+"px"
-		  	})
-		  	adjustMeasurementLines();
-		  	adjustSonarWidth();
-		  	adjustSonarIndicator();
-		  	$(".measuring-line-second").css( {
-		  		"margin-left" : $("#surface-line").width()
-		  	})
-		});
+            $(".measuring-line").css( {
+                "height" : ($(window).height()-160)+"px"
+            })
+            adjustMeasurementLines();
+            adjustSonarWidth();
+            adjustSonarIndicator();
+            $(".measuring-line-second").css( {
+                "margin-left" : $("#surface-line").width()
+            })
+            $("#fishContainer").height($(".measuring-line").height());
+            $("#fishContainer").width($("#surface-line").width());
 
-		$(window).trigger('resize');
+        });
 
-		function adjustMeasurementLines() {
-			var fromtop = $('.measuring-line-first').height()/5 - 2;
-			$('.measuring-line-first').children('div').each(function () {
-				if (!($(this).is(':first-child'))) {
-					$(this).css( {
-		    			"margin-top" : fromtop+"px"
-		    		})
-				}
-			});
-		}
+        $(window).trigger('resize');
+        //startTimer();
 
-		function adjustSonarWidth() {
-			$("#surface-line").css( {
-				"width" : $(".measuring-line").height() * 2
-			})
-		}
+        function adjustMeasurementLines() {
+            var fromtop = $('.measuring-line-first').height()/5 - 2;
+            $('.measuring-line-first').children('div').each(function () {
+                if (!($(this).is(':first-child'))) {
+                    $(this).css( {
+                        "margin-top" : fromtop+"px"
+                    })
+                }
+            });
+        }
 
-		function adjustSonarIndicator() {
-			$("#radar-indicator").css( {
-				"margin-left" : $("#surface-line").width() / 2
-			})
-		}
+        function adjustSonarWidth() {
+            $("#surface-line").css( {
+                "width" : $(".measuring-line").height() * 2
+            })
+        }
 
+        function adjustSonarIndicator() {
+            $("#radar-indicator").css( {
+                "margin-left" : $("#surface-line").width() / 2
+            })
+        }
+
+        //var myDelay = 2000;
+        //var thisDelay = 2000;
+        //var start = Date.now();
+
+        //simuloitu kalat javascriptin sisältä, ei tarvitse unity
+        function startTimer() {    
+            setTimeout(function() {
+                var randomSize = getRandomArbitrary(1, 21);
+                var randomDepth = getRandomArbitrary(1, 15);
+                var randomLat = getRandomArbitrary(-15, 15);
+                fishPing(randomSize, randomDepth, randomLat);
+                var actual = Date.now() - start;
+                thisDelay = myDelay - (actual - myDelay);
+                start = Date.now();
+                startTimer();
+            }, thisDelay);
+        }
     });
 }]);
 
-app.controller('SonarInsert', ['$scope', '$resource', function($scope, $resource){
-    alert("perkele");
-}]);
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 app.controller('DroneControl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
@@ -229,11 +256,58 @@ function clearfishes(){
 
 
 function fishPing(size,depth,locallat){
-    //console.log("fishPing general call");
-    if (window.location.href.indexOf("sonar") != -1){
-    //console.log("fishPing sonar call");
+    console.log("fishPing general call, size: " + size +  ", depth: " + depth + ", locallat:  " + locallat);
+    if (openView === "sonar") {
+        addfishIndication(size,depth,locallat);
     }
 }
+
+function addfishIndication(size,depth,locallat) {
+    let fishWidth = 20 + size * 5.5;
+    let fishHeight = 0.47619047619 * fishWidth;
+
+    let one_meter = $(".measuring-line").height() / 15;
+    let top = (depth * one_meter) - (fishHeight / 2);
+    let left = (15 * one_meter) + ((locallat) * one_meter) - (fishWidth / 2);
+
+
+    //ratio: korkeus = 0.47619047619 * leveys
+    //kala maz koko = 300.0width + 142.857142857 height
+    //vaihtelu = 40-250
+    //1 kokoyksikkö = 8.4 leveys pikseliä
+
+    console.log("creating fish with attributes:\n"
+        + "size: "+size + "\n"
+        + "depth: " + depth + "\n"
+        + "local lat: " + locallat + "\n"
+        + "Y-line height: " + $(".measuring-line").height() + "\n"
+        + "one meter Y: " + one_meter + "\n"
+        + "X-line width: " + $("#surface-line").width() + "\n"
+        + "top: " + top + "\n"
+        + "left: " + left + "\n"
+        );
+
+    let style = 'style="top: '+top+'px; left: '+left+'px; height : '+fishHeight+'px;  width: '+fishWidth+'px;   "';
+
+    let fishId = ("fishIndication_"+fishCount);
+
+    let fish = '<div '+ style + ' class="fish-indication" id="'+ fishId + '">'
+     + '</div>';
+
+    fishId = "#"+fishId;
+    $(fish).appendTo($("#fishContainer"));
+    fishCount++;
+    //console.log("selector: " + $(fishId).attr("selector"));
+
+    $(fishId).fadeOut(2000, function() {
+        //console.log("removing fish: "+fishId);
+        $(fishId).remove();
+        
+    });
+    
+}
+
+
 
 function showDrone(){
     if (window.location.href.indexOf("drone") == -1){
