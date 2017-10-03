@@ -212,10 +212,15 @@ function addFish(flat,flong,depth,size){
     console.log("addFish general call");
     if (window.location.href.indexOf("localmaps") != -1){
     console.log("addFish maps update");
+
+    $injector = angular.element(document).injector();
+    $injector.get('$http').post('fish/add/'+flong+'/'+flat+'/'+depth);
+
     var marker = new google.maps.Marker({
         position: {lat: flat, lng: flong},
         map: window.map,
         title: "Fish : "+depth+"m deep, "+size+"kg"
+
       });
     }
 }
@@ -290,4 +295,19 @@ function hideDrone(){
 
 function reroute(whereto){
     console.log("This would handle unity UI redirects, but they currently have issues.");
-}
+    $injector = angular.element(document).injector();
+    $injector.get('$window').location =(whereto);
+    //let scope =  $injector.get('$scope');
+    //$injector.get('$location').path(whereto);
+    //angular.injector(['ng', 'NemoFinder']).get('$location').path(whereto.toString());
+    //angular.injector(['ng', 'NemoFinder']).get("Unity").reroute(whereto);
+};
+
+app.factory('Unity', [function(){
+    return {
+    reroute:function (whereto){
+        console.log("This is inside the Unity angular factory, headed for "+whereto);
+        //$location.path(whereto);
+    }
+    };
+}]);
