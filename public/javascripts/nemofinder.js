@@ -83,7 +83,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
             var payload = JSON.parse($window.atob(token.split(".")[1]));
             return{
                 email: payload.email,
-                name: payload.name
+                name: payload.name,
+                id: payload._id
             };
         }
     };
@@ -113,12 +114,16 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
 }]);
 
 app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
         console.log("toimi logout");
         $location.path("/home");   
     };
+
+
 }]);
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
