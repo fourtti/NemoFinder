@@ -2,9 +2,13 @@ const mongoose = require( 'mongoose' );
 //const dbUrl = "mongodb://localhost/NemoFinder"; // link to local server, change to production later.
 const dbUrl = "mongodb://nemo:soundsfishy@ds151024.mlab.com:51024/nemofinder"
 
+// doing this to plug in the global promise library to stop mongoose form console logging a depreciation warning.
+//Not entirely sure what this does
+mongoose.Promise = global.Promise
+
 let gracefulShutdown;
 
-mongoose.connect(dbUrl);
+mongoose.connect(dbUrl,{useMongoClient: true});
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', function() {

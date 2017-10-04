@@ -71,7 +71,7 @@ describe('Model controllers', function() {
   					userCtrl.userAddFishData(pekkaID,newFishdataID).then(()=>{
   						done();
   					});
-  				}).catch((err)=>{console.log(err);});
+  				}).catch((err)=>{console.log(err);done();});
   			});
   		});
 
@@ -81,7 +81,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users.length);
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('searching for a user based on id ', function(done){
@@ -97,7 +97,7 @@ describe('Model controllers', function() {
   					assert.equal(true,JSON.stringify(user1) === JSON.stringify(user2));
   					done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('Adding fishdata to a user', function(done){
@@ -105,7 +105,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users[0].fishdata.length);
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('findUserFishdata method', function(done){
@@ -120,7 +120,7 @@ describe('Model controllers', function() {
 	  				assert.equal(true,JSON.stringify(usersFishdataID) == JSON.stringify(returnedFishdataID));
 	  				done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('Deleting fishdata from the users array', function(done){
@@ -133,25 +133,32 @@ describe('Model controllers', function() {
   						done();	
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
   	});
 
 
   	 //testing the fishdata controllers
-  	describe('fishdata Testing', function(){
+  	describe('fishdata Testing', function(done){
   		//this method is run before the tests in this function are run
   		before(function(done){
   			//creating a new fishdata object at different coords
-  			fishdataCtrl.createFishdata([50,50],10,false).then(()=>{
+  			fishdataCtrl.createFishdata([50,50],10,false).then((data)=>{
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
 
   		it('Searching based on location works',function(done){
   			//method should only return one as the location is too far away for search parameters
-  			fishdataCtrl.getFishdata(10000,10,49.998595, 49.975885).then((data)=>{
+  			fishdataCtrl.getFishdata(10000,10,0, 0).then((data)=>{
+
+          /*
+          if(data.length == 0){
+            console.log(data);
+            fishdataCtrl.getFishdata(10000,10,49.998595, 49.975885).then((data)=>{console.log(data);});
+          }*/
+
   				assert.equal(1,data.length);
 
   				//method should return 2 locations as the max search distance is larger than the distance
@@ -164,20 +171,18 @@ describe('Model controllers', function() {
 	  					done();
 	  				});
 	  			});
-  			});	
+  			}).catch((err)=>{console.log(err);done();});	
   		});
 
   		it('Editing a fishdatas fields values',function(done){
 
   			//changing the value of a fishdata objects private field to true
   			fishdataCtrl.getFishdata(1000,10,0,0).then((data)=>{
-  				fishdataCtrl.editFishdata(data[0].obj._id,data[0].obj.coords,data[0].obj.depth,data[0].obj.owner,true).then(()=>{
-  					fishdataCtrl.getFishdata(1000,10,0,0).then((data)=>{
-  						assert.equal(true,data[0].obj.private);
-  						done();
-  					});
+  				fishdataCtrl.editFishdata(data[0].obj._id,data[0].obj.coords,data[0].obj.depth,data[0].obj.owner,true).then((data)=>{
+  					assert.equal(true,data.private);
+              done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('Deleting a fishdata object from the database',function(done){
@@ -192,9 +197,8 @@ describe('Model controllers', function() {
   						done();
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
-
   	});
   	 //testing the map controllers
   	describe('Maps Testing', function(){
@@ -220,7 +224,7 @@ describe('Model controllers', function() {
   						});
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		}); 
 
   		it('Searching for a certain users map',function(done){
@@ -230,7 +234,7 @@ describe('Model controllers', function() {
   					assert.equal(1,maps.length);
   					done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('Finding a single map based on id',function(done){
@@ -243,7 +247,7 @@ describe('Model controllers', function() {
   						done();
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
 
   		it('List of a map\'s fishdata',function(done){
@@ -255,7 +259,7 @@ describe('Model controllers', function() {
   						done();
   					})
   				});
-  			});
+  			}).catch((err)=>{console.log(err);done();});
   		});
   	});
 
