@@ -1,4 +1,4 @@
-//required for database connection
+    //required for database connection
 const mongoose = require("mongoose");
 let Fishdata = mongoose.model("fishData");
 
@@ -22,7 +22,7 @@ let theEarth = (function () {
 })();
 
 //creates a new fishdata and saves it
-module.exports.createFishdata = function(coords,depth,owner,private){
+module.exports.createFishdataAddOwner = function(coords,depth,owner,private){
     return new Promise((resolve,reject)=>{
 
 	let newData = new Fishdata();
@@ -85,7 +85,6 @@ module.exports.getFishdata = function(maxDistance,count,lng,lat){
             console.log("searching with GeoNear did not work");
             reject(err);
         }
-        console.log(stats);
         resolve(results);
 
         });
@@ -95,9 +94,9 @@ module.exports.getFishdata = function(maxDistance,count,lng,lat){
 };
 
 // fetches given fishdata from the database, changes object variables to parameter values and saves it.
-module.exports.editFishdata = function(fishdataId,ownerId,coords,depth,owner,private){
+module.exports.editFishdata = function(fishdataId,coords,depth,owner,private){
     return new Promise((resolve,reject)=>{
-        Fishdata.findOne({_id:fishdataId,owner:ownerId},function(err,foundData){
+        Fishdata.findOne({_id:fishdataId},function(err,foundData){
             if(err){
                 console.log('something went wrong when searching for users fishdata');
                 reject(err);
@@ -120,9 +119,9 @@ module.exports.editFishdata = function(fishdataId,ownerId,coords,depth,owner,pri
     });
 };
 
-module.exports.deleteFishdata = function(ownerId,fishdataId){
+module.exports.deleteFishdata = function(fishdataId){
     return new Promise((resolve,reject)=>{
-        Fishdata.find({_id:fishdataId,owner:ownerId}).remove(function(err){
+        Fishdata.find({_id:fishdataId}).remove(function(err){
             if(err){
                 console.log('something went wrong when trying to delete fisdata');
                 reject(err);

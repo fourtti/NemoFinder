@@ -5,3 +5,4 @@ node_js:
   - "8"
 services:
   - mongodb
+before_script: chmod 0777 ./node_modules/.bin/mocha

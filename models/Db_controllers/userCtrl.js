@@ -25,7 +25,7 @@ module.exports.getAllUsers = function(){
 //returns user based on given id
 module.exports.findUser = function(id){
 	return new Promise((resolve,reject)=>{
-		User.find({_id: id},function(err,foundUser){
+		User.findOne({_id: id},function(err,foundUser){
 		if(err){
 			console.log("Could not find user based on id:" + id);
 			console.log(err);
@@ -179,9 +179,10 @@ module.exports.createUser = function(name,email,password){
 		newUser.save(function(err){
 		if(err){
 			console.log("could not save new user to database.");
+			console.log(err);
 			reject(err);
 		}
-		resolve(err);
+		resolve(newUser);
 		});
 	});
 };
