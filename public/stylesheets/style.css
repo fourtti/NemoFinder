@@ -1,32 +1,111 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: url(../../images/fishing_background_1.png);
-  overflow-x: hidden;
-  overflow-y: hidden;
-  z-index: 0;
+#bodyid {
+	font : 16px "Poppins" , sans-serif;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	z-index: 0;
+    background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
+    url('../../images/fishing_background_5.jpg');
 }
 
 a {
-  color: #00B7FF;
+  	color: #00B7FF;
 }
 
 .loginpad {
 	padding-top: 20%;
 }
 
+/* ----------------------SHARED GENERAL ----------------------*/
+
+.blue-background {
+	background-color: rgba(13, 14, 76, 1);
+}
+.white-text {
+	color: white;
+}
+
+.orange-text {
+	color: #ffc175
+}
+
+.padding-bottom {
+	padding-bottom: 30px;
+}
+
+#brand:hover {
+	color: #ffc175
+}
+
 /* ----------------------MENU VIEW ----------------------*/
 .menu-button {
 	height: 200px;
+	border-radius: 5px;
+	border: 1px solid white;
+	color: #474747;
+	overflow: hidden;
+	background-size: contain;
+	font-size: 24px;
+}
+.menu-button:hover {
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 20px rgba(255, 255, 255, 0.8);
+	text-decoration: none;
+}
+
+#home-navbar {
+	white-space: nowrap;
+	border-radius: 0px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid white;
+}
+#home-navbar li {
+	display: inline-block;
+}
+#home-navbar li a {
 
 }
 
-.margin-auto {
-	margin: auto;
+#my-maps-button {
+	background: url(../../images/rahajarvi_map_2.png); 
+}
+#gather-data-button {
+	background: url(../../images/sonar_thumbnail_4.png);
+}
+#online-maps-button {
+	color: #333333;
+	background: url(../../images/globe_map_1.jpg);
 }
 
-.menu-row {
-	display: flex;
-	justify-content: space-around;
+#wifi-icon {
+	left: 50%;
+	margin-top: 65px;
+	margin-left: -50px;
+	position: absolute;
+	width: 100px;
+	height: 130px;
+	background: url(../../images/wifi_icon_1.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0.8;
+}
+#no-wifi-icon {
+	margin-top: 40px;
+	margin-left: -60px;
+	width: 120px;
+	height: 120px;
+	background: url(../../images/no_wifi_icon_2.png);
+	background-size: contain;
+}
+#save-icon {
+	top: 80px;
+	margin-left: -25px;
+}
+
+.wifi-icon-shared {
+	left: 50%;
+	position: absolute;
+	overflow: hidden;
+	z-index: 2;
+	opacity: 0.6;
 }
 
 /* ---------------------- SONAR VIEW --------------------- */
@@ -176,3 +255,8 @@ div.broken, div.missing {
 }
 
 /*------------------------------------------------------------- */
+
+/*  Onlinemap css  */
+.onlinemaptext {
+	width: 20%;
+}

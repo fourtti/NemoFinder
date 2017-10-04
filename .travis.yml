@@ -1,7 +1,8 @@
 sudo: required
 language: node_js
 node_js:
-  - "iojs"
   - "8"
+  - "iojs"
 services:
   - mongodb
+before_script: chmod 0777 ./node_modules/.bin/mocha

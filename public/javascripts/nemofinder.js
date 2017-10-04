@@ -29,16 +29,26 @@ app.config(['$routeProvider', function($routeProvider){
         .when('/', {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
+        
         }).when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
+
         }).when('/sonar', {
             templateUrl: 'partials/sonar.html',
             controller: 'SonarCtrl'
-
+        
         }).when('/online', {
             templateUrl: 'partials/online.html',
             controller: 'OnlineCtrl'
+        
+        }).when('/onlinemap', {
+            templateUrl: 'partials/onlinemap.html',
+            controller: 'OnlineMapCtrl'
+        
+        }).when('/sonar/fishX/:fishX/fishY/:fishY/fishWeight/:fishWeight', {
+            templateUrl: 'partials/sonar.html',
+            controller: 'SonarInsert'
 
         }).when('/drone', {
             templateUrl: 'partials/drone.html',
@@ -75,6 +85,7 @@ app.service("authentication", ["$window","$http", function($window,$http){
         console.log("token removed");
 
     };
+
     var isLoggedIn = function(){
         var token = getToken();
 
@@ -93,7 +104,8 @@ app.service("authentication", ["$window","$http", function($window,$http){
             console.log(payload);
             return{
                 email: payload.email,
-                name: payload.name
+                name: payload.name,
+                id: payload._id
             };
         }
     };
@@ -105,7 +117,7 @@ app.service("authentication", ["$window","$http", function($window,$http){
         login: login,
         logout: logout,
         isLoggedIn: isLoggedIn,
-        currentUser: currentUser
+        currentUser: currentUser,
     };
 }]);
 
@@ -122,20 +134,78 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
 }]);
 
 app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
         console.log("yritit logata ulos");
         authentication.logout();
         console.log("toimi logout");
         $location.path("/home");   
     };
+
 }]);
+
+app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
+    $scope.user = authentication.currentUser();
+    $scope.isLoggedIn = authentication.isLoggedIn();
+    $scope.userLogOut = function(){
+        console.log("yritit logata ulos");
+        authentication.logout();
+        console.log("toimi logout");
+        $location.path("/home");   
+    };
+
+    $scope.searchFunc = function() {
+        console.log("kutsuttu searcFunc");
+        let searchString = "/fish/list/?long=" + $scope.search.long + "&lat=" + $scope.search.lat + "&maxDistance=" + $scope.search.maxDistance + "&amount=" + $scope.search.amount;
+        $http({
+            method: 'GET',
+            url: searchString
+
+            // success asynchronously when the response is available
+            }).then(function successCallback(response) {
+                let dataArray = response.data;
+
+                let location = { lat: parseFloat($scope.search.lat), lng: parseFloat($scope.search.long) };
+                window.map.setCenter(location);
+
+                for(item in dataArray) {
+                    if(dataArray.hasOwnProperty(item)){
+                        console.log("iterate array");
+                        let long = dataArray[item].obj.coords[0];
+                        let lat = dataArray[item].obj.coords[1]; 
+
+                        let marker = new google.maps.Marker({
+
+                            position: {lat: lat, lng: long },
+                            icon: {
+                                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                strokeColor: "red",
+                                scale: 3
+                            },
+                        map: window.map,
+                        title: "Boat"
+                        });
+                        console.log("after marker attempt");
+                    }
+                }
+       
+            // if an error occurs
+            }, function errorCallback(response) {
+                console.log("shit they are on to us");
+        });
+    };
+
+}]);
+
+
 
 app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
         openView = "home";
 
         $('body').css( {
-            "background" : "url(../../images/fishing_background_1.png)"
+        	"background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
         });
     });
 }]);
