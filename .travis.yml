@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - "iojs"
   - "8"
+  - "iojs"
 services:
   - mongodb
