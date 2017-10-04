@@ -379,8 +379,10 @@ function hideDrone(){
 
 function reroute(whereto){
     console.log("This would handle unity UI redirects, but they currently have issues.");
+    /*
     $injector = angular.element(document).injector();
     $injector.get('$window').location =(whereto);
+    */
     //let scope =  $injector.get('$scope');
     //$injector.get('$location').path(whereto);
     //angular.injector(['ng', 'NemoFinder']).get('$location').path(whereto.toString());
