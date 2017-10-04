@@ -1,6 +1,9 @@
 {
   "name": "nemofinder",
   "version": "0.7.0",
+  "engines": {
+    "node": "8.6.x"
+  },
   "private": true,
   "scripts": {
     "test": "mocha",
