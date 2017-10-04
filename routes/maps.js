@@ -11,6 +11,9 @@ router.post('/new',function(req,res){
     let private = req.body.private;
 
 
+    //DEBUG
+    console.log(fishdata);
+
 	if(!name || !fishdata || !private || !owner){
 		res.status(400);
 		res.json({message: "All parameters are requred!"});
