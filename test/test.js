@@ -171,11 +171,9 @@ describe('Model controllers', function() {
 
   			//changing the value of a fishdata objects private field to true
   			fishdataCtrl.getFishdata(1000,10,0,0).then((data)=>{
-  				fishdataCtrl.editFishdata(data[0].obj._id,data[0].obj.coords,data[0].obj.depth,data[0].obj.owner,true).then(()=>{
-  					fishdataCtrl.getFishdata(1000,10,0,0).then((data)=>{
-  						assert.equal(true,data[0].obj.private);
-  						done();
-  					});
+  				fishdataCtrl.editFishdata(data[0].obj._id,data[0].obj.coords,data[0].obj.depth,data[0].obj.owner,true).then((data)=>{
+  					assert.equal(true,data.private);
+              done();
   				});
   			});
   		});
