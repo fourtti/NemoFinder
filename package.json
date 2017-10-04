@@ -6,6 +6,7 @@
   },
   "private": true,
   "scripts": {
+    "test": "mocha",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -21,5 +22,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.0"
   }
 }
