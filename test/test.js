@@ -81,7 +81,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users.length);
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('searching for a user based on id ', function(done){
@@ -97,7 +97,7 @@ describe('Model controllers', function() {
   					assert.equal(true,JSON.stringify(user1) === JSON.stringify(user2));
   					done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('Adding fishdata to a user', function(done){
@@ -105,7 +105,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users[0].fishdata.length);
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('findUserFishdata method', function(done){
@@ -120,7 +120,7 @@ describe('Model controllers', function() {
 	  				assert.equal(true,JSON.stringify(usersFishdataID) == JSON.stringify(returnedFishdataID));
 	  				done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('Deleting fishdata from the users array', function(done){
@@ -133,7 +133,7 @@ describe('Model controllers', function() {
   						done();	
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
   	});
 
@@ -145,7 +145,7 @@ describe('Model controllers', function() {
   			//creating a new fishdata object at different coords
   			fishdataCtrl.createFishdata([50,50],10,false).then(()=>{
   				done();
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
 
@@ -164,7 +164,7 @@ describe('Model controllers', function() {
 	  					done();
 	  				});
 	  			});
-  			});	
+  			}).catch((err)=>{console.log(err);});	
   		});
 
   		it('Editing a fishdatas fields values',function(done){
@@ -175,7 +175,7 @@ describe('Model controllers', function() {
   					assert.equal(true,data.private);
               done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('Deleting a fishdata object from the database',function(done){
@@ -190,7 +190,7 @@ describe('Model controllers', function() {
   						done();
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   	});
@@ -218,7 +218,7 @@ describe('Model controllers', function() {
   						});
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		}); 
 
   		it('Searching for a certain users map',function(done){
@@ -228,7 +228,7 @@ describe('Model controllers', function() {
   					assert.equal(1,maps.length);
   					done();
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('Finding a single map based on id',function(done){
@@ -241,7 +241,7 @@ describe('Model controllers', function() {
   						done();
   					});
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
 
   		it('List of a map\'s fishdata',function(done){
@@ -253,7 +253,7 @@ describe('Model controllers', function() {
   						done();
   					})
   				});
-  			});
+  			}).catch((err)=>{console.log(err);});
   		});
   	});
 
