@@ -196,7 +196,7 @@ app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
         openView = "home";
 
         $('body').css( {
-            "background" : "url(../../images/fishing_background_1.png)"
+        	"background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
         });
     });
 }]);

@@ -1,14 +1,36 @@
-<div class="panel panel-default text-center">
-  <div class="panel-body">NemoFinder</div>
-</div>
-<div class="container">
-  <div class="row text-center menu-row">
-  	<a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#sonar/">My Maps</a>
-    <a type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#drone/">Gather Data</a>
 
-    <!--Button is hidden if user is not logged in -->
-    <a ng-hide="!userIsLoggedIn" type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#online/">Online Maps</a>
-    <!--This button is shown only if user is not logged in -->
-    <a ng-hide="userIsLoggedIn" type="button" class="menu-button btn btn-default col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center" href="/#login/">Online Maps</a>
+<nav class="navbar blue-background white-text" id="home-navbar">
+  <div class="container-fluid">
+    <div class="navbar-header" style="display: inline-block;">
+      <a id="brand" class="navbar-brand orange-text" href="#">Nemofinder</a>
+    </div>
+    <div style="display: inline-block; float: right;">
+      <ul class="nav navbar-nav navbar-right blue-background white-text">
+        <li><a href="#" class="orange-text"><span class="glyphicon glyphicon-user"></span> username {{user.name}}!</a>
+        </li>
+        <li><a href="#" class="orange-text"><span class="glyphicon glyphicon-log-in"></span>&nbsp; Log in</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container menu-buttons-container">
+  <div class="row text-center menu-row">
+  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
+  		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="" id="my-maps-button">
+  		<div id="no-wifi-icon" class="wifi-icon-shared"></div>
+  		My Maps</a>
+  	</div>
+  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
+  		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="" id="gather-data-button"/#drone/" style="color: white">
+  		<div class="glyphicon glyphicon-floppy-disk wifi-icon-shared" id="save-icon" style="font-size: 60px; position: absolute"></div>
+  		Gather data</a>
+  	</div>
+  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
+  		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="/#onlinemap/" id="online-maps-button"/#login/">
+  		<div id="wifi-icon" class="wifi-icon-shared"></div>
+  		Online maps</a>
+  	</div>
   </div>
 </div>
