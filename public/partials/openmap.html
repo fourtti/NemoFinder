@@ -15,24 +15,13 @@
 </nav>
 
 <div class='buttons'>
-    <a type="button" class="btn btn-default" href="/#/drone">Drone</a>
-    <a type="button" class="btn btn-default" href="/#/sonar">Sonar</a>
-    <a type="button" id='togglebtn' class="btn btn-default" onclick='sonarON();'>Sonar ON</a>
-    <a type="button" class="btn btn-default" onclick='clearFishes();'>Clear Local Data</a>
+    <a type="button" class="btn btn-default" href="/#/mymaps">Back to my maps</a>
   </div>
     
 
     <div id="map"></div>
-  <div class='buttons'>
-    <a type="button" class="btn btn-default" onclick='saveMap();'>Save map as:</a><input type="text" id="mapnameinput">
-  </div>
     <script>
     function initMap() {
-      if(sonar){
-        let btn = document.getElementById('togglebtn');
-        btn.innerHTML='Sonar OFF';
-        btn.onclick = function() { sonarOFF();};
-      }
       if(true){
         var moneylake = {lat: 68.7624646, lng: 27.3234272}; //68.7624646, 27.3234272
         window.map = new google.maps.Map(document.getElementById('map'), {
@@ -50,7 +39,7 @@
         map: map,
         title: "Boat"
       });
-      fishestomap();
+      mapfishes();
     };
 
     </script>

@@ -1,8 +1,11 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
 var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 var loadsofids =  JSON.parse(localStorage.getItem('fishids'));
-var fishmarkers = [] //stores google map markers so they can be removed
-var sonar =false;
+var fishmaps = []; 
+//fishmaps = JSON.parse(localStorage.getItem('locmaps'));; //used to store local maps, as an array: [name,[fish]]
+var fishmarkers = []; //stores google map markers so they can be removed
+var sonar = false;
+var mymapindex = 0;
 
 if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined'){
     console.log("setting up data storage");
@@ -18,7 +21,13 @@ if(window.localStorage.getItem('fishids')=='null' || window.localStorage.getItem
 } else {
     var loadsofids =  JSON.parse(localStorage.getItem('fishids'));
 }
-//typeof loadsoffish !== 'undefined' && loadsoffish !== null
+if(window.localStorage.getItem('locmaps')=='null' || window.localStorage.getItem('locmaps')=='undefined'){
+    console.log("setting up data storage");
+    fishmaps = [];
+    localStorage.setItem('locmaps', JSON.stringify(fishmaps)); 
+} else {
+    var fishmaps =  JSON.parse(localStorage.getItem('locmaps'));
+}
 
 var openView = "home";
 var fishCount = 0;
@@ -57,6 +66,14 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/localmaps', {
             templateUrl: 'partials/localmaps.html',
             controller: 'LocalMapsControl'
+
+        }).when('/mymaps', {
+            templateUrl: 'partials/mymaps.html',
+            controller: 'MyMapsControl'
+
+        }).when('/openmap', {
+            templateUrl: 'partials/openmap.html',
+            //controller: 'MyMapsControl'
 
         }).otherwise({
             redirectTo: '/'
@@ -200,7 +217,7 @@ app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication
 
 
 
-app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
+app.controller('HomeCtrl', ['$scope', '$resource', 'authentication', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
         openView = "home";
 
@@ -299,6 +316,22 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
 }]);
 
+app.controller('MyMapsControl', ['$scope', '$resource', function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        const mapdiv = document.getElementById('mapsdiv');
+        console.log( document.getElementById('map-btn-template').childNodes[1]);
+        for(let i=0;i<fishmaps.length;i++){
+            //let mapbtn = document.importNode(document.getElementById('map-btn-template').content, true);
+            let mapbtn = document.getElementById('map-btn-template').childNodes[1].cloneNode(true);
+            let ii=i+0;
+            console.log(mapbtn.childNodes[1]);
+            mapbtn.childNodes[1].onclick = function(){mymapindex=ii;};
+            mapbtn.childNodes[1].innerText=""+fishmaps[i][0];
+            mapdiv.appendChild(mapbtn);
+        }
+    });
+}]);
+
 function addFish(flat,flong,size,depth){
     console.log("addFish general call");
     loadsoffish.push([flat,flong,depth,size]);
@@ -334,12 +367,26 @@ function fishestomap(){
         };
     };
 
+function mapfishes(){
+      for(let i = 0; i < fishmaps[mymapindex][1].length; i++){
+        var marker = new google.maps.Marker({
+            position: {lat: fishmaps[mymapindex][1][i][parseFloat(0)], lng: fishmaps[mymapindex][1][i][parseFloat(1)]},
+            icon: "../../images/tinygoldfish.png",
+            map: window.map,
+            title: "Fish : "+fishmaps[mymapindex][1][i][2]+"m deep, "+fishmaps[mymapindex][1][i][3]+'kg'
+            });
+        fishmarkers.push(marker);
+        };
+};
+
 function saveMap(){
     let mapnamefield=document.getElementById('mapnameinput');
     if(mapnamefield.value.length>0){
         $injector = angular.element(document).injector();
         let win = $injector.get('$window');
         let user = JSON.parse(win.atob((angular.injector(['ng', 'NemoFinder']).get("authentication").getToken().split(".")[1])));
+        fishmaps.push([mapnamefield.value,loadsoffish]);
+        localStorage.setItem('locmaps', JSON.stringify(fishmaps));
         if(user._id.length>0){
             $injector.get('$http').post('/api/maps/new',{name: mapnamefield.value, fishdata: loadsofids, owner: user._id, private:false}).then(function(){console.log("map successfully saved");});
             clearFishes();
@@ -361,6 +408,11 @@ function clearMarkers(){
         fishmarkers[i].setMap(null);
     };
     fishmarkers=[];
+}
+
+function clearMaps(){
+    fishmaps = [];
+    localStorage.setItem('fishids', JSON.stringify(fishmaps)); 
 }
 
 function sonarON(){
