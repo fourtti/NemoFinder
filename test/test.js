@@ -81,7 +81,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users.length);
   				done();
-  			}).catch((err)=>{console.log(err);done();});
+  			}).catch((err)=>{console.log(err);done();assert.equal(1,0);});
   		});
 
   		it('searching for a user based on id ', function(done){
@@ -105,7 +105,7 @@ describe('Model controllers', function() {
   			userCtrl.getAllUsers().then((users)=>{
   				assert.equal(1,users[0].fishdata.length);
   				done();
-  			}).catch((err)=>{console.log(err);done();});
+  			}).catch((err)=>{console.log(err);assert.equal(1,0);done();});
   		});
 
   		it('findUserFishdata method', function(done){
