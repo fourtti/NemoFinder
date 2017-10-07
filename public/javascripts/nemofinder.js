@@ -1,6 +1,11 @@
 var app = angular.module('NemoFinder', ['ngResource','ngRoute']);
-//localStorage.setItem('fishdata', JSON.stringify([]));
 var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
+var loadsofids =  JSON.parse(localStorage.getItem('fishids'));
+var fishmaps = []; 
+//fishmaps = JSON.parse(localStorage.getItem('locmaps'));; //used to store local maps, as an array: [name,[fish]]
+var fishmarkers = []; //stores google map markers so they can be removed
+var sonar = false;
+var mymapindex = 0;
 
 if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getItem('fishdata')=='undefined'){
     console.log("setting up data storage");
@@ -9,7 +14,20 @@ if(window.localStorage.getItem('fishdata')=='null' || window.localStorage.getIte
 } else {
     var loadsoffish =  JSON.parse(localStorage.getItem('fishdata'));
 }
-//typeof loadsoffish !== 'undefined' && loadsoffish !== null
+if(window.localStorage.getItem('fishids')=='null' || window.localStorage.getItem('fishids')=='undefined'){
+    console.log("setting up data storage");
+    loadsofids = [];
+    localStorage.setItem('fishids', JSON.stringify(loadsofids)); 
+} else {
+    var loadsofids =  JSON.parse(localStorage.getItem('fishids'));
+}
+if(window.localStorage.getItem('locmaps')=='null' || window.localStorage.getItem('locmaps')=='undefined'){
+    console.log("setting up data storage");
+    fishmaps = [];
+    localStorage.setItem('locmaps', JSON.stringify(fishmaps)); 
+} else {
+    var fishmaps =  JSON.parse(localStorage.getItem('locmaps'));
+}
 
 var openView = "home";
 var fishCount = 0;
@@ -48,6 +66,14 @@ app.config(['$routeProvider', function($routeProvider){
         }).when('/localmaps', {
             templateUrl: 'partials/localmaps.html',
             controller: 'LocalMapsControl'
+
+        }).when('/mymaps', {
+            templateUrl: 'partials/mymaps.html',
+            controller: 'MyMapsControl'
+
+        }).when('/openmap', {
+            templateUrl: 'partials/openmap.html',
+            //controller: 'MyMapsControl'
 
         }).otherwise({
             redirectTo: '/'
@@ -92,6 +118,7 @@ app.service("authentication", ["$window","$http", function($window,$http){
         if(isLoggedIn()){
             var token = getToken();
             var payload = JSON.parse($window.atob(token.split(".")[1]));
+            console.log(payload);
             return{
                 email: payload.email,
                 name: payload.name,
@@ -99,7 +126,6 @@ app.service("authentication", ["$window","$http", function($window,$http){
             };
         }
     };
-
 
     return {
         saveToken: saveToken,
@@ -117,8 +143,8 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
     $scope.userLogin = function(){
         console.log("login function");
         authentication.login($scope.user).then(function(){
-        console.log('tuli reittiin');
-        $location.path("/online");
+            console.log('tuli reittiin');
+            $location.path("/online");
         });
         
     };
@@ -191,7 +217,7 @@ app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication
 
 
 
-app.controller('HomeCtrl', ['$scope', '$resource',  function($scope, $resource){
+app.controller('HomeCtrl', ['$scope', '$resource', 'authentication', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
         openView = "home";
 
@@ -290,40 +316,120 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
 }]);
 
+app.controller('MyMapsControl', ['$scope', '$resource', function($scope, $resource){
+    $scope.$on('$viewContentLoaded', function(){
+        const mapdiv = document.getElementById('mapsdiv');
+        console.log( document.getElementById('map-btn-template').childNodes[1]);
+        for(let i=0;i<fishmaps.length;i++){
+            //let mapbtn = document.importNode(document.getElementById('map-btn-template').content, true);
+            let mapbtn = document.getElementById('map-btn-template').childNodes[1].cloneNode(true);
+            let ii=i+0;
+            console.log(mapbtn.childNodes[1]);
+            mapbtn.childNodes[1].onclick = function(){mymapindex=ii;};
+            mapbtn.childNodes[1].innerText=""+fishmaps[i][0];
+            mapdiv.appendChild(mapbtn);
+        }
+    });
+}]);
+
 function addFish(flat,flong,size,depth){
     console.log("addFish general call");
     loadsoffish.push([flat,flong,depth,size]);
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
-    if (window.location.href.indexOf("localmaps") != -1){
-    console.log("addFish maps update");
     $injector = angular.element(document).injector();
-    $injector.get('$http').post('fish/add/'+flong+'/'+flat+'/'+depth);
+    $injector.get('$http').post('fish/add/'+flong+'/'+flat+'/'+depth).then(function(data){
+        loadsofids.push(data.data.id);
+        localStorage.setItem('fishids', JSON.stringify(loadsofids)); 
+        });
 
-    var marker = new google.maps.Marker({
-        position: {lat: flat, lng: flong},
-        map: window.map,
-        title: "Fish : "+depth+"m deep, "+size+'kg'
-      });
-    }
-}
+    if (window.location.href.indexOf("localmaps") != -1){
+        console.log("addFish maps update");
+        var marker = new google.maps.Marker({
+            position: {lat: flat, lng: flong},
+            icon: "../../images/tinygoldfish.png",
+            map: window.map,
+            title: "Fish : "+depth+"m deep, "+size+'kg'
+            });
+        fishmarkers.push(marker);
+        };
+    };
 
 function fishestomap(){
     console.log("mapping fishes");
       for(let i = 0; i < loadsoffish.length; i++){
-        console.log("fish #"+i);
         var marker = new google.maps.Marker({
             position: {lat: loadsoffish[i][parseFloat(0)], lng: loadsoffish[i][parseFloat(1)]},
+            icon: "../../images/tinygoldfish.png",
             map: window.map,
             title: "Fish : "+loadsoffish[i][2]+"m deep, "+loadsoffish[i][3]+'kg'
             });
+        fishmarkers.push(marker);
         };
     };
 
-function clearfishes(){
+function mapfishes(){
+      for(let i = 0; i < fishmaps[mymapindex][1].length; i++){
+        var marker = new google.maps.Marker({
+            position: {lat: fishmaps[mymapindex][1][i][parseFloat(0)], lng: fishmaps[mymapindex][1][i][parseFloat(1)]},
+            icon: "../../images/tinygoldfish.png",
+            map: window.map,
+            title: "Fish : "+fishmaps[mymapindex][1][i][2]+"m deep, "+fishmaps[mymapindex][1][i][3]+'kg'
+            });
+        fishmarkers.push(marker);
+        };
+};
+
+function saveMap(){
+    let mapnamefield=document.getElementById('mapnameinput');
+    if(mapnamefield.value.length>0){
+        $injector = angular.element(document).injector();
+        let win = $injector.get('$window');
+        let user = JSON.parse(win.atob((angular.injector(['ng', 'NemoFinder']).get("authentication").getToken().split(".")[1])));
+        fishmaps.push([mapnamefield.value,loadsoffish]);
+        localStorage.setItem('locmaps', JSON.stringify(fishmaps));
+        if(user._id.length>0){
+            $injector.get('$http').post('/api/maps/new',{name: mapnamefield.value, fishdata: loadsofids, owner: user._id, private:false}).then(function(){console.log("map successfully saved");});
+            clearFishes();
+            mapnamefield.value="";
+        };
+    };
+};
+
+function clearFishes(){
     loadsoffish=[];
     localStorage.setItem('fishdata', JSON.stringify(loadsoffish));
+    loadsofids = [];
+    localStorage.setItem('fishids', JSON.stringify(loadsofids)); 
+    clearMarkers();
 }
 
+function clearMarkers(){
+    for(let i = 0; i < fishmarkers.length; i++){
+        fishmarkers[i].setMap(null);
+    };
+    fishmarkers=[];
+}
+
+function clearMaps(){
+    fishmaps = [];
+    localStorage.setItem('fishids', JSON.stringify(fishmaps)); 
+}
+
+function sonarON(){
+    let btn = document.getElementById('togglebtn');
+    u.getUnity().SendMessage("DroneSonar", "ToggleON","");
+    btn.innerHTML='Sonar OFF';
+    btn.onclick = function() { sonarOFF();};
+    sonar=true;
+}
+
+function sonarOFF(){
+    let btn = document.getElementById('togglebtn');
+    u.getUnity().SendMessage("DroneSonar", "ToggleOFF","");
+    btn.innerHTML='Sonar ON';
+    btn.onclick = function() { sonarON();};
+    sonar=false;
+}
 
 function fishPing(size,depth,locallat){
     console.log("fishPing general call, size: " + size +  ", depth: " + depth + ", locallat:  " + locallat);
@@ -395,8 +501,10 @@ function hideDrone(){
 
 function reroute(whereto){
     console.log("This would handle unity UI redirects, but they currently have issues.");
+    /*
     $injector = angular.element(document).injector();
     $injector.get('$window').location =(whereto);
+    */
     //let scope =  $injector.get('$scope');
     //$injector.get('$location').path(whereto);
     //angular.injector(['ng', 'NemoFinder']).get('$location').path(whereto.toString());

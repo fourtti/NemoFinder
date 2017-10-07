@@ -1,24 +1,45 @@
-<div class="panel panel-default text-center">
-<div class="panel-body">NemoFinder</div>
+<nav class="navbar blue-background white-text" id="home-navbar">
+  <div class="container-fluid">
+    <div class="navbar-header" style="display: inline-block;">
+      <a id="brand" class="navbar-brand orange-text" href="#">Nemofinder</a>
+    </div>
+    <div style="display: inline-block; float: right;">
+      <ul class="nav navbar-nav navbar-right blue-background white-text">
+        <li><a href="#" class="orange-text"><span class="glyphicon glyphicon-user"></span> username {{user.name}}!</a>
+        </li>
+        <li><a href="/#login/" class="orange-text"><span class="glyphicon glyphicon-log-in"></span>&nbsp; Log in</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-</div>
-<div id='buttons'>
+<div class='buttons'>
     <a type="button" class="btn btn-default" href="/#/drone">Drone</a>
-    <a type="button" class="btn btn-default" href="/#/">Home</a>
     <a type="button" class="btn btn-default" href="/#/sonar">Sonar</a>
-    <a type="button" id='togglebtn' class="btn btn-default" onclick='sonaron();'>Sonar ON</a>
-    <a type="button" class="btn btn-default" onclick='clearfishes();'>Clear Local Data</a>
+    <a type="button" id='togglebtn' class="btn btn-default" onclick='sonarON();'>Sonar ON</a>
+    <a type="button" class="btn btn-default" onclick='clearFishes();'>Clear Local Data</a>
   </div>
     
 
     <div id="map"></div>
+  <div class='buttons'>
+    <a type="button" class="btn btn-default" onclick='saveMap();'>Save map as:</a><input type="text" id="mapnameinput">
+  </div>
     <script>
     function initMap() {
-      var moneylake = {lat: 68.7624646, lng: 27.3234272}; //68.7624646, 27.3234272
-      window.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: moneylake
-      });
+      if(sonar){
+        let btn = document.getElementById('togglebtn');
+        btn.innerHTML='Sonar OFF';
+        btn.onclick = function() { sonarOFF();};
+      }
+      if(true){
+        var moneylake = {lat: 68.7624646, lng: 27.3234272}; //68.7624646, 27.3234272
+        window.map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: moneylake
+        });
+      };
       var marker = new google.maps.Marker({
         position: moneylake,
         icon: {
@@ -31,6 +52,7 @@
       });
       fishestomap();
     };
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG9dbkrFR5E6zWt4Y86XJ_AjIEPoo1rTI&callback=initMap">

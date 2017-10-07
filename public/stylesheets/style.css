@@ -225,7 +225,7 @@ a {
 	vertical-align: middle;
 }
 
-div#buttons {
+div.buttons {
     display: flex;
     justify-content: center;
 }
