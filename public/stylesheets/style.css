@@ -20,6 +20,11 @@ a {
 .blue-background {
 	background-color: rgba(13, 14, 76, 1);
 }
+
+.black-background {
+	background-color: black;
+}
+
 .white-text {
 	color: white;
 }
@@ -65,14 +70,20 @@ a {
 }
 
 #my-maps-button {
-	background: url(../../images/rahajarvi_map_2.png); 
+	background: url(../../images/rahajarvi_map3.png); 
+	background-repeat: no-repeat;
+    background-position: left top;
 }
 #gather-data-button {
 	background: url(../../images/sonar_thumbnail_4.png);
+	background-repeat: repeat;
+    background-position: left top;
 }
 #online-maps-button {
 	color: #333333;
-	background: url(../../images/globe_map_1.jpg);
+	background: url(../../images/map_thumbnail_5.jpg);
+	background-repeat: no-repeat;
+    background-position: left top;
 }
 
 #wifi-icon {
