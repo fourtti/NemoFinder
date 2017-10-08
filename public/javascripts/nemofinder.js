@@ -123,6 +123,12 @@ app.service("authentication", ["$window","$http", function($window,$http){
 
 
 app.controller("LoginCtrl", ["$scope","$location", "authentication",function($scope,$location,authentication){
+    $scope.$on('$viewContentLoaded', function(){
+        openView = "login";
+        $('body').css( {
+            "background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
+        });
+    });
     $scope.userLogin = function(){
         console.log("login function");
         authentication.login($scope.user).then(function(){
@@ -134,6 +140,12 @@ app.controller("LoginCtrl", ["$scope","$location", "authentication",function($sc
 }]);
 
 app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($scope,$location,authentication){
+    $scope.$on('$viewContentLoaded', function(){
+        openView = "online";
+        $('body').css( {
+            "background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
+        });
+    });
     $scope.user = authentication.currentUser();
     $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
@@ -146,6 +158,14 @@ app.controller("OnlineCtrl", ["$scope", "$location", "authentication",function($
 }]);
 
 app.controller("OnlineMapCtrl", ["$scope", "$http", "$location", "authentication",function($scope,$http,$location,authentication){
+    $scope.$on('$viewContentLoaded', function(){
+        openView = "online";
+        $('body').css( {
+            "background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
+        });
+    });
+
+
     $scope.user = authentication.currentUser();
     $scope.isLoggedIn = authentication.isLoggedIn();
     $scope.userLogOut = function(){
@@ -289,6 +309,10 @@ function getRandomArbitrary(min, max) {
 app.controller('DroneControl', ['$scope', '$resource', function($scope, $resource){
     $scope.$on('$viewContentLoaded', function(){
         showDrone();
+        openView = "drone";
+        $('body').css( {
+            "background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
+        });
     });
 
     $scope.$on('$destroy', function() {
@@ -297,6 +321,12 @@ app.controller('DroneControl', ['$scope', '$resource', function($scope, $resourc
 }]);
 
 app.controller('LocalMapsControl', ['$scope', '$resource', function($scope, $resource){
+    openView = "localmaps";
+    $scope.$on('$viewContentLoaded', function(){
+        $('body').css( {
+            "background": "linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../../images/fishing_background_5.jpg')"
+        });
+    });
 }]);
 
 function addFish(flat,flong,size,depth){
