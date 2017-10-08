@@ -1,12 +1,12 @@
 
-<nav class="navbar blue-background white-text" id="home-navbar">
+<nav class="navbar black-background white-text" id="home-navbar">
   <div class="container-fluid">
     <div class="navbar-header" style="display: inline-block;">
-      <a id="brand" class="navbar-brand orange-text" href="#">Nemofinder</a>
+      <a id="brand" class="navbar-brand orange-text" href="/#home">Nemofinder</a>
     </div>
     <div style="display: inline-block; float: right;">
-      <ul class="nav navbar-nav navbar-right blue-background white-text">
-        <li><a href="#" class="orange-text"><span class="glyphicon glyphicon-user"></span> username {{user.name}}!</a>
+      <ul class="nav navbar-nav navbar-right black-background white-text">
+        <li><a href="/#home" class="orange-text"><span class="glyphicon glyphicon-user"></span> username {{user.name}}!</a>
         </li>
         <li><a href="/#login/" class="orange-text"><span class="glyphicon glyphicon-log-in"></span>&nbsp; Log in</a>
         </li>
@@ -17,21 +17,24 @@
 
 <div class="container menu-buttons-container">
   <div class="row text-center menu-row">
-  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
-  		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="/#mymaps/" id="my-maps-button">
+  	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center padding-bottom">
+  		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="#/" id="my-maps-button">
   		<div id="no-wifi-icon" class="wifi-icon-shared"></div>
   		My Maps</a>
   	</div>
-  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
+
+  	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center padding-bottom">
   		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" 
   		href="/#drone/" id="gather-data-button" style="color: white">
   		<div class="glyphicon glyphicon-floppy-disk wifi-icon-shared" id="save-icon" style="font-size: 60px; position: absolute"></div>
   		Gather data</a>
   	</div>
-  	<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 text-center padding-bottom">
+
+  	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center padding-bottom">
   		<a type="button" class="menu-button col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" href="/#login/" id="online-maps-button">
   		<div id="wifi-icon" class="wifi-icon-shared"></div>
   		Online maps</a>
   	</div>
+
   </div>
 </div>
