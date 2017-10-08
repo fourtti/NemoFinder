@@ -223,7 +223,7 @@ a {
 	font-size:30px; 
 	margin: auto;
 	vertical-align: middle;
-}
+0}
 
 div.buttons {
     display: flex;
@@ -259,4 +259,21 @@ div.broken, div.missing {
 /*  Onlinemap css  */
 .onlinemaptext {
 	width: 20%;
+}
+
+
+
+
+/* Online View */
+#saved-maps-button {
+	background: url(../../images/myMapsTESTIMG.jpg);
+	background-size: contain;
+	border: 1px solid white;
+	font-size: 1.5em;
+}
+#my-online-map-button{
+	background:url(../../images/mapMarkerIMG.PNG);
+	background-size: contain;
+	border: 1px sold white;
+	font-size: 1.5em;
 }

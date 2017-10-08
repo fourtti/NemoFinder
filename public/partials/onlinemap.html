@@ -1,14 +1,16 @@
-<nav class="navbar navbar-default">
+<nav class="navbar blue-background white-text" id="home-navbar">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Nemofinder</a>
+    <div class="navbar-header" style="display: inline-block;">
+      <a id="brand" class="navbar-brand orange-text" href="#">Nemofinder</a>
     </div>
-    <ul class="nav navbar-nav">
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-       <li><p class="navbar-text"><span class="glyphicon glyphicon-user"></span> Hello {{user.name}}!</p></li>
-      <li><a href="" ng-click="userLogOut()"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-    </ul>
+    <div style="display: inline-block; float: right;">
+      <ul class="nav navbar-nav navbar-right blue-background white-text">
+        <li><a href="#/online" class="orange-text"><span class="glyphicon glyphicon-user"></span> Hello {{user.name}}!</a>
+        </li>
+        <li><a href="/#login/" class="orange-text"><span class="glyphicon glyphicon-log-out"></span>&nbsp; Log out</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
