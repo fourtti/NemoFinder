@@ -108,6 +108,7 @@ router.get('/:id',auth, function(req,res){
 router.get('/:id/maps',auth, function(req,res){
     const id = req.params.id;
 
+
     mapCtrl.getUserMaps(id).then((data)=>{
         res.status(200);
         res.json(data);
